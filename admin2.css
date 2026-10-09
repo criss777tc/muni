@@ -1,0 +1,486 @@
+/* ============================================
+   LOGIN — Municipalidad de El Carril
+   Estética consistente con index y adminmuni
+   ============================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --azul-primario: #005BBE;
+    --azul-oscuro: #003d7a;
+    --azul-profundo: #082055;
+    --verde-accent: #71B62A;
+    --blanco: #ffffff;
+    --gris-bg: #f0f4f8;
+    --gris-claro: #e8ecf1;
+    --gris-medio: #94a3b8;
+    --gris-texto: #475569;
+    --texto-oscuro: #1e293b;
+    --rojo-danger: #ef4444;
+    --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --sombra-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --radio-sm: 8px;
+    --radio-md: 12px;
+    --radio-lg: 16px;
+    --transicion: 0.25s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--azul-profundo) 0%, var(--azul-primario) 50%, #1a4fa0 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ============================================
+   FORMAS DE FONDO ANIMADAS
+   ============================================ */
+.bg-shapes {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    animation: floatShape 20s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    right: -150px;
+    animation-duration: 25s;
+}
+
+.shape-2 {
+    width: 400px;
+    height: 400px;
+    bottom: -120px;
+    left: -100px;
+    animation-duration: 18s;
+    animation-delay: -8s;
+    background: rgba(113, 182, 42, 0.06);
+}
+
+.shape-3 {
+    width: 250px;
+    height: 250px;
+    top: 40%;
+    left: 15%;
+    animation-duration: 30s;
+    animation-delay: -15s;
+}
+
+@keyframes floatShape {
+    0%, 100% { transform: translateY(0) scale(1); }
+    33%       { transform: translateY(-30px) scale(1.04); }
+    66%       { transform: translateY(20px) scale(0.97); }
+}
+
+/* ============================================
+   TARJETA PRINCIPAL
+   ============================================ */
+.login-wrapper {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(8, 32, 85, 0.35), 0 0 0 1px rgba(255,255,255,0.5);
+    width: 100%;
+    max-width: 440px;
+    overflow: hidden;
+    animation: slideUp 0.5s ease both;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   ENCABEZADO DE LA TARJETA
+   ============================================ */
+.login-header {
+    background: linear-gradient(135deg, var(--azul-primario), var(--azul-profundo));
+    padding: 36px 36px 28px;
+    text-align: center;
+    position: relative;
+}
+
+.login-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--verde-accent), #a3e635, var(--verde-accent));
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.login-logo-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    margin-bottom: 14px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.login-logo {
+    width: 46px;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.login-title {
+    color: var(--blanco);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.login-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   SEPARADOR
+   ============================================ */
+.login-divider {
+    height: 1px;
+    background: var(--gris-claro);
+}
+
+/* ============================================
+   FORMULARIO
+   ============================================ */
+.login-form {
+    padding: 28px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.login-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--verde-accent);
+    background: rgba(113, 182, 42, 0.1);
+    border: 1px solid rgba(113, 182, 42, 0.25);
+    padding: 5px 12px;
+    border-radius: 20px;
+    width: fit-content;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* Grupos de campos */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gris-texto);
+    letter-spacing: 0.01em;
+}
+
+.input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    color: var(--gris-medio);
+    pointer-events: none;
+    transition: color var(--transicion);
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 44px 12px 42px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--texto-oscuro);
+    background: var(--gris-bg);
+    border: 2px solid var(--gris-claro);
+    border-radius: var(--radio-sm);
+    outline: none;
+    transition: all var(--transicion);
+}
+
+.input-field::placeholder {
+    color: var(--gris-medio);
+    font-weight: 400;
+}
+
+.input-field:focus {
+    background: var(--blanco);
+    border-color: var(--azul-primario);
+    box-shadow: 0 0 0 4px rgba(0, 91, 190, 0.1);
+}
+
+.input-field:focus + .input-icon,
+.input-wrap:focus-within .input-icon {
+    color: var(--azul-primario);
+}
+
+/* Toggle contraseña */
+.toggle-pass {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--gris-medio);
+    border-radius: 4px;
+    transition: color var(--transicion), background var(--transicion);
+}
+
+.toggle-pass:hover {
+    color: var(--azul-primario);
+    background: rgba(0, 91, 190, 0.08);
+}
+
+/* Mensaje de error */
+.login-error {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radio-sm);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--rojo-danger);
+    animation: fadeIn 0.25s ease;
+}
+
+.login-error.visible {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Botón de ingreso */
+.btn-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 24px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--blanco);
+    background: linear-gradient(135deg, var(--azul-primario), var(--azul-oscuro));
+    border: none;
+    border-radius: var(--radio-sm);
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: all var(--transicion);
+    box-shadow: 0 4px 14px rgba(0, 91, 190, 0.35);
+    position: relative;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    opacity: 0;
+    transition: opacity var(--transicion);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 91, 190, 0.45);
+}
+
+.btn-login:hover::before {
+    opacity: 1;
+}
+
+.btn-login:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 91, 190, 0.3);
+}
+
+.btn-login:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-arrow {
+    transition: transform var(--transicion);
+}
+
+.btn-login:hover .btn-arrow {
+    transform: translateX(4px);
+}
+
+/* Spinner de carga */
+.btn-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: var(--blanco);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+.btn-login.loading .btn-spinner {
+    display: block;
+}
+
+.btn-login.loading .btn-arrow {
+    display: none;
+}
+
+.btn-login.loading .btn-text::after {
+    content: '...';
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   PIE DE TARJETA
+   ============================================ */
+.login-footer {
+    padding: 16px 36px 24px;
+    text-align: center;
+    border-top: 1px solid var(--gris-claro);
+}
+
+.login-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gris-texto);
+    text-decoration: none;
+    transition: color var(--transicion);
+}
+
+.login-back-link svg {
+    transition: transform var(--transicion);
+}
+
+.login-back-link:hover {
+    color: var(--azul-primario);
+}
+
+.login-back-link:hover svg {
+    transform: translateX(-3px);
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+@media (max-width: 480px) {
+    .login-wrapper {
+        border-radius: 16px;
+    }
+
+    .login-header {
+        padding: 28px 24px 22px;
+    }
+
+    .login-form {
+        padding: 22px 24px;
+        gap: 16px;
+    }
+
+    .login-footer {
+        padding: 14px 24px 20px;
+    }
+
+    .login-logo-wrap {
+        width: 60px;
+        height: 60px;
+    }
+
+    .login-logo {
+        width: 38px;
+    }
+
+    .login-title {
+        font-size: 1rem;
+    }
+}
