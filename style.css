@@ -141,6 +141,131 @@ body {
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 */
+
+/* ====================================================
+   WIDGET CLIMA — TOAST FLOTANTE (esquina superior derecha)
+   ==================================================== */
+@keyframes climaSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(110%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.widget-clima-carril {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+    box-shadow:
+        0 8px 32px rgba(0, 91, 190, 0.14),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    min-width: 210px;
+    max-width: 240px;
+    box-sizing: border-box;
+    animation: climaSlideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    cursor: default;
+}
+
+.widget-clima-carril:hover {
+    box-shadow:
+        0 16px 48px rgba(0, 91, 190, 0.2),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Indicador de color en el borde izquierdo */
+.widget-clima-carril::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, var(--azul-primario), var(--verde-accent));
+}
+
+.widget-clima-carril .clima-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    padding-left: 6px;
+}
+
+.widget-clima-carril .clima-lugar {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.widget-clima-carril .clima-provincia {
+    font-size: 0.68rem;
+    color: #64748b;
+    margin-top: 1px;
+}
+
+.widget-clima-carril .clima-icono {
+    font-size: 1.7rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+}
+
+.widget-clima-carril .clima-cuerpo {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding-left: 6px;
+}
+
+.widget-clima-carril .clima-temp {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.widget-clima-carril .clima-estado {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.widget-clima-carril .clima-detalles {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    padding-left: 6px;
+    border-top: 1px dashed rgba(226, 232, 240, 0.9);
+    font-size: 0.72rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
 /* ====================================================
    BARRA DE NAVEGACIÓN (TABS STYLE CONSISTENTE CON ADMIN)
    ==================================================== */
@@ -872,6 +997,22 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.tarjeta-grande .texto .fecha-evento {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 3px 10px;
+    backdrop-filter: blur(4px);
+}
+
 
 .tarjeta-chica .texto {
     padding: 16px;

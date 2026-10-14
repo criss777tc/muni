@@ -149,6 +149,7 @@ function actualizarContenidoCollage(conTransicion = true) {
             <div class="texto">
                 <h2>${e.nombre}</h2>
                 <p>${e.descripcion || ''}</p>
+                ${e.fecha ? `<small class="fecha-evento">${new Date(e.fecha).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })}</small>` : ''}
             </div>
         `;
         collage.appendChild(grande);
@@ -199,6 +200,10 @@ function actualizarContenidoCollage(conTransicion = true) {
 // ====================================================
 let indiceActual = 0;
 let totalSlides = 0;
+let autoplayInterval = null;
+let autoplayPauseTimeout = null;
+const AUTOPLAY_DELAY = 4500;   // ms entre slides
+const AUTOPLAY_RESUME = 8000;  // ms de pausa tras interacción manual
 
 function renderCarrusel(noticias) {
     const pista = document.getElementById('pista');
@@ -235,6 +240,7 @@ function renderCarrusel(noticias) {
 
     indiceActual = 0;
     actualizarPosicion();
+    iniciarAutoplay();
 }
 
 // ====================================================
@@ -260,11 +266,39 @@ function mover(dir) {
     if (totalSlides === 0) return;
     indiceActual = (indiceActual + dir + totalSlides) % totalSlides;
     actualizarPosicion();
+    pausarAutoplay();
 }
 
 function irA(i) {
     indiceActual = i;
     actualizarPosicion();
+    pausarAutoplay();
+}
+
+// ====================================================
+//  AUTOPLAY DEL CARRUSEL
+// ====================================================
+function iniciarAutoplay() {
+    detenerAutoplay();
+    if (totalSlides <= 1) return;
+    autoplayInterval = setInterval(() => {
+        indiceActual = (indiceActual + 1) % totalSlides;
+        actualizarPosicion();
+    }, AUTOPLAY_DELAY);
+}
+
+function detenerAutoplay() {
+    if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+    }
+}
+
+// Pausa tras interacción manual y retoma después de AUTOPLAY_RESUME ms
+function pausarAutoplay() {
+    detenerAutoplay();
+    if (autoplayPauseTimeout) clearTimeout(autoplayPauseTimeout);
+    autoplayPauseTimeout = setTimeout(iniciarAutoplay, AUTOPLAY_RESUME);
 }
 
 // ====================================================
@@ -299,3 +333,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+
+// ============================================================
+//  WIDGET DEL CLIMA (API OpenWeatherMap)
+//  Asume que la API devuelve texto en español
+// ============================================================
+(function () {
+    // Coordenadas oficiales de El Carril, Salta (CP 4421)
+    const LAT = -25.07185;
+    const LON = -65.49302;
+    const estadosClima = {
+        0: { desc: "Despejado", icono: "☀️" },
+        1: { desc: "Mayormente despejado", icono: "🌤️" },
+        2: { desc: "Parcialmente nublado", icono: "⛅" },
+        3: { desc: "Nublado", icono: "☁️" },
+        45: { desc: "Niebla", icono: "🌫️" },
+        51: { desc: "Llovizna leve", icono: "🌦️" },
+        61: { desc: "Lluvia leve", icono: "🌧️" },
+        63: { desc: "Lluvia moderada", icono: "🌧️" },
+        65: { desc: "Lluvia fuerte", icono: "🌧️" },
+        80: { desc: "Chaparrones", icono: "🌧️" },
+        95: { desc: "Tormenta eléctrica", icono: "⛈️" }
+    };
+    async function cargarClimaElCarril() {
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=America/Argentina/Salta`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const temp = Math.round(data.current.temperature_2m);
+            const humedad = data.current.relative_humidity_2m;
+            const viento = Math.round(data.current.wind_speed_10m);
+            const codigo = data.current.weather_code;
+            const estado = estadosClima[codigo] || { desc: "Variado", icono: "🌤️" };
+            document.getElementById('carril-temp').textContent = `${temp}°C`;
+            document.getElementById('carril-estado').textContent = estado.desc;
+            document.getElementById('carril-icono').textContent = estado.icono;
+            document.getElementById('carril-humedad').textContent = `${humedad}%`;
+            document.getElementById('carril-viento').textContent = `${viento} km/h`;
+        } catch (err) {
+            document.getElementById('carril-estado').textContent = "No disponible";
+        }
+    }
+    cargarClimaElCarril();
+    // Se actualiza automáticamente cada 15 minutos sin recargar la página
+    setInterval(cargarClimaElCarril, 15 * 60 * 1000);
+})();
