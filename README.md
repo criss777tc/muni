@@ -5,23 +5,6 @@ Permite publicar noticias, eventos y servicios municipales de forma dinámica a 
 
 ---
 
-## 📋 Tabla de contenidos
-
-- [Descripción general](#-descripción-general)
-- [Arquitectura del sistema](#-arquitectura-del-sistema)
-- [Estructura de archivos](#-estructura-de-archivos)
-- [Secciones del sitio público](#-secciones-del-sitio-público)
-- [Panel de administración](#-panel-de-administración)
-- [API REST (Backend)](#-api-rest-backend)
-- [Requisitos previos](#-requisitos-previos)
-- [Instalación y puesta en marcha](#-instalación-y-puesta-en-marcha)
-- [Configuración](#-configuración)
-- [Uso del panel de administración](#-uso-del-panel-de-administración)
-- [Tecnologías utilizadas](#-tecnologías-utilizadas)
-- [Contribuir](#-contribuir)
-
----
-
 ## 📖 Descripción general
 
 El sistema consta de dos partes principales:
