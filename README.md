@@ -297,17 +297,12 @@ Si el backend corre en otro host o puerto (por ejemplo en producción), actualiz
 
 ---
 
-## 🤝 Contribuir
-
-1. Hacé un fork del repositorio.
-2. Creá una rama: `git checkout -b feature/mi-mejora`.
-3. Commiteá tus cambios: `git commit -m "Agrega: descripción del cambio"`.
-4. Hacé push: `git push origin feature/mi-mejora`.
-5. Abrí un Pull Request.
-
----
-
 ## 📄 Licencia
 
 © 2026 Municipalidad de El Carril — Todos los derechos reservados.  
 Este proyecto es de uso institucional interno.
+
+---
+## Autor
+Cristian Torres el mas pro 
+https://github.com/criss777tc
