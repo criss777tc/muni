@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 let eventosCollage = [];
 let offsetCollage = 0;
 let intervaloCollage = null;
-const INTERVALO_ROTACION = 1000; // Rotar cada 4.5 segundos
+const INTERVALO_ROTACION = 4500; // Rotar cada 4.5 segundos
 
 function renderNovedades(eventos) {
     const collage = document.getElementById('collage-novedades');
