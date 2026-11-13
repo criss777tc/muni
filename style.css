@@ -150,6 +150,7 @@ body {
         opacity: 0;
         transform: translateX(110%);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -229,7 +230,7 @@ body {
 
 .widget-clima-carril .clima-icono {
     font-size: 1.7rem;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
 }
 
 .widget-clima-carril .clima-cuerpo {
@@ -267,13 +268,14 @@ body {
 }
 
 /* ====================================================
-   BARRA DE NAVEGACIÓN (TABS STYLE CONSISTENTE CON ADMIN)
+   BARRA DE NAVEGACIÓN 
    ==================================================== */
 .navbar {
     background: var(--blanco);
     border-bottom: 2px solid var(--gris-claro);
     box-shadow: var(--sombra-sm);
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 900;
 }
 
@@ -329,6 +331,93 @@ body {
 .nav-link:hover svg,
 .nav-link.active svg {
     color: var(--verde-accent);
+}
+
+/*
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+
+    /* IMPORTANTE: sin position: fixed ni sticky, tiene que scrollear con la página *
+}
+*/
+/*.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+
+/* Hamburguesa: invisible desde el principio *
+.hamburguesa {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    background: #1f2937;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    opacity: 0;
+    visibility: hidden;
+    /* también la saca del tab/lectores de pantalla *
+    pointer-events: none;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.hamburguesa.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.hamburguesa span {
+    width: 26px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.hamburguesa.activo span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburguesa.activo span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburguesa.activo span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Menú desplegable *
+.menu-flotante {
+    position: fixed;
+    top: 4.5rem;
+    right: 1rem;
+    z-index: 999;
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: #1f2937;
+    border-radius: 8px;
+}
+
+.menu-flotante.abierto {
+    display: flex;
+}
+
+.menu-flotante a {
+    color: #fff;
+    text-decoration: none;
 }
 
 /* Dropdown */
@@ -682,6 +771,594 @@ body {
     font-size: 0.75rem;
     font-weight: 600;
     backdrop-filter: blur(4px);
+}
+
+/* Botón para abrir el detalle de una noticia */
+.btn-ver-mas {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
+    background: var(--blanco);
+    color: var(--azul-primario);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-ver-mas:hover {
+    transform: translateY(-2px);
+    background: #eaf4ff;
+}
+
+.btn-ver-mas:focus-visible,
+.modal-noticia-cerrar:focus-visible,
+.modal-btn-nav:focus-visible,
+.modal-btn-accion:focus-visible {
+    outline: 3px solid var(--cyan-accent);
+    outline-offset: 3px;
+}
+
+/* ====================================================
+   VENTANA FLOTANTE DE NOTICIAS (MODAL)
+   ==================================================== */
+.modal-noticia {
+    width: min(840px, calc(100% - 32px));
+    max-height: min(90vh, 880px);
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 22px;
+    background: var(--blanco);
+    box-shadow:
+        0 25px 70px -10px rgba(8, 32, 85, 0.45),
+        0 10px 25px -5px rgba(0, 91, 190, 0.2);
+    overflow: hidden;
+    position: fixed;
+    inset: 0;
+    margin: auto;
+}
+
+.modal-noticia[open] {
+    animation: modalPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-noticia::backdrop {
+    background: rgba(8, 32, 85, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: modalBackdropFade 0.28s ease forwards;
+}
+
+@keyframes modalPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes modalBackdropFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-noticia-contenedor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: min(90vh, 880px);
+    background: var(--blanco);
+}
+
+/* Barra superior / Topbar */
+.modal-noticia-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gris-claro);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.modal-noticia-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    background: rgba(0, 91, 190, 0.08);
+    border: 1px solid rgba(0, 91, 190, 0.15);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--azul-primario);
+}
+
+.modal-badge-separador {
+    color: var(--gris-medio);
+    font-weight: normal;
+}
+
+.modal-badge-contador {
+    color: var(--verde-accent);
+    font-weight: 700;
+}
+
+.modal-noticia-cerrar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--gris-claro);
+    background: var(--gris-bg);
+    color: var(--gris-texto);
+    cursor: pointer;
+    transition: all var(--transicion);
+}
+
+.modal-noticia-cerrar:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: var(--rojo-danger);
+    transform: rotate(90deg);
+}
+
+/* Sección multimedia */
+.modal-noticia-media {
+    position: relative;
+    width: 100%;
+    max-height: 360px;
+    background: var(--azul-profundo);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.modal-noticia-imagen {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-noticia-imagen[hidden] {
+    display: none !important;
+}
+
+/* Banner de respaldo institucional cuando no hay imagen */
+.modal-noticia-banner-fallback {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 34px 28px;
+    background: linear-gradient(135deg, var(--azul-primario) 0%, var(--azul-profundo) 100%);
+    color: var(--blanco);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-noticia-banner-fallback::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    bottom: -30px;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.banner-fallback-icono {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    flex-shrink: 0;
+}
+
+.banner-fallback-icono img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.banner-fallback-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.banner-fallback-muni {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.banner-fallback-sub {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+}
+
+/* Cuerpo del modal con scroll integrado (la imagen scrollea junto con el texto) */
+.modal-noticia-cuerpo {
+    padding: 0;
+    overflow-y: auto;
+    flex: 1 1 auto;
+    overscroll-behavior: contain;
+}
+
+.modal-noticia-detalle {
+    padding: 28px 34px 34px;
+}
+
+/* Scrollbar personalizada */
+.modal-noticia-cuerpo::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-noticia-cuerpo::-webkit-scrollbar-track {
+    background: var(--gris-bg);
+}
+
+.modal-noticia-cuerpo::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.modal-noticia-cuerpo::-webkit-scrollbar-thumb:hover {
+    background: var(--azul-primario);
+}
+
+.modal-noticia-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-size: 0.825rem;
+}
+
+.modal-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--azul-primario);
+    font-weight: 600;
+}
+
+.modal-meta-lectura {
+    color: var(--gris-texto);
+    font-weight: 500;
+}
+
+.modal-meta-tag {
+    padding: 3px 10px;
+    background: rgba(113, 182, 42, 0.12);
+    border: 1px solid rgba(113, 182, 42, 0.25);
+    border-radius: 50px;
+    color: #3b7c09;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.modal-noticia-titulo {
+    color: var(--azul-profundo);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 14px 0;
+    letter-spacing: -0.015em;
+}
+
+.modal-noticia-divisor {
+    width: 56px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--azul-primario), var(--cyan-accent));
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+/* Soporte para columna TEXT con múltiples párrafos, enlaces y listas */
+.modal-noticia-descripcion {
+    color: #334155;
+    font-size: 1rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.modal-noticia-descripcion .modal-parrafo {
+    margin: 0 0 1.25rem 0;
+}
+
+.modal-noticia-descripcion .modal-parrafo:last-child {
+    margin-bottom: 0;
+}
+
+.modal-noticia-descripcion .modal-parrafo.modal-lead {
+    font-size: 1.08rem;
+    font-weight: 500;
+    color: var(--texto-oscuro);
+    line-height: 1.75;
+}
+
+.modal-noticia-descripcion .modal-link {
+    color: var(--azul-primario);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 500;
+    word-break: break-all;
+    transition: color var(--transicion);
+}
+
+.modal-noticia-descripcion .modal-link:hover {
+    color: var(--azul-oscuro);
+    text-decoration-thickness: 2px;
+}
+
+.modal-noticia-descripcion .modal-sin-descripcion {
+    color: var(--gris-medio);
+    font-style: italic;
+}
+
+/* Footer del modal con navegación y acciones */
+.modal-noticia-footer {
+    padding: 14px 24px;
+    background: var(--gris-bg);
+    border-top: 1px solid var(--gris-claro);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.modal-nav-grupo,
+.modal-acciones-grupo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-btn-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 1px solid var(--gris-claro);
+    background: var(--blanco);
+    color: var(--azul-primario);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transicion);
+}
+
+.modal-btn-nav:hover:not(:disabled) {
+    background: #eaf4ff;
+    border-color: var(--azul-primario);
+    transform: translateY(-1px);
+    box-shadow: var(--sombra-sm);
+}
+
+.modal-btn-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.modal-btn-accion {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transicion);
+}
+
+.modal-btn-compartir {
+    background: var(--blanco);
+    border: 1px solid var(--gris-claro);
+    color: var(--gris-texto);
+}
+
+.modal-btn-compartir:hover {
+    border-color: var(--azul-primario);
+    color: var(--azul-primario);
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+.modal-btn-compartir.copiado {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #047857;
+}
+
+.modal-btn-cerrar-footer {
+    background: var(--azul-primario);
+    border: 1px solid var(--azul-primario);
+    color: var(--blanco);
+}
+
+.modal-btn-cerrar-footer:hover {
+    background: var(--azul-oscuro);
+    border-color: var(--azul-oscuro);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 91, 190, 0.25);
+}
+
+.modal-noticia-abierta {
+    overflow: hidden;
+}
+
+/* ====================================================
+   MODAL DE EVENTOS
+   ==================================================== */
+.modal-evento {
+    width: min(840px, calc(100% - 32px));
+    max-height: min(90vh, 880px);
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 22px;
+    background: var(--blanco);
+    box-shadow:
+        0 25px 70px -10px rgba(8, 32, 85, 0.45),
+        0 10px 25px -5px rgba(113, 182, 42, 0.18);
+    overflow: hidden;
+    position: fixed;
+    inset: 0;
+    margin: auto;
+}
+
+.modal-evento[open] {
+    animation: modalPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-evento::backdrop {
+    background: rgba(8, 32, 85, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: modalBackdropFade 0.28s ease forwards;
+}
+
+/* Badge verde para eventos */
+.modal-evento .modal-noticia-badge {
+    background: rgba(113, 182, 42, 0.1);
+    border-color: rgba(113, 182, 42, 0.3);
+    color: #3b7c09;
+}
+
+.modal-evento .modal-badge-contador {
+    color: var(--azul-primario);
+}
+
+/* Banner fallback verde para eventos */
+.modal-evento-banner {
+    background: linear-gradient(135deg, #4a8f10 0%, var(--azul-profundo) 100%) !important;
+}
+
+/* Tag verde especifico de eventos */
+.modal-meta-tag-evento {
+    padding: 3px 10px;
+    background: rgba(113, 182, 42, 0.12);
+    border: 1px solid rgba(113, 182, 42, 0.25);
+    border-radius: 50px;
+    color: #3b7c09;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Divisor verde para eventos */
+.modal-evento .modal-noticia-divisor {
+    background: linear-gradient(90deg, var(--verde-accent), var(--cyan-accent));
+}
+
+/* Boton "Ver mas" en la tarjeta grande de eventos */
+.btn-ver-evento {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--blanco);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ver-evento:hover {
+    background: rgba(255, 255, 255, 0.28);
+    transform: translateY(-2px);
+}
+
+.btn-ver-evento:focus-visible {
+    outline: 3px solid var(--cyan-accent);
+    outline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+    .modal-noticia {
+        width: calc(100% - 20px);
+        max-height: 94vh;
+        border-radius: 18px;
+    }
+
+    .modal-noticia-topbar {
+        padding: 12px 16px;
+    }
+
+    .modal-noticia-cuerpo {
+        padding: 0;
+    }
+
+    .modal-noticia-detalle {
+        padding: 20px 18px 24px;
+    }
+
+    .modal-noticia-media {
+        max-height: 240px;
+    }
+
+    .modal-noticia-imagen {
+        max-height: 240px;
+    }
+
+    .modal-noticia-footer {
+        padding: 12px 16px;
+        flex-direction: column-reverse;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .modal-nav-grupo,
+    .modal-acciones-grupo {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .modal-btn-nav,
+    .modal-btn-accion {
+        flex: 1;
+        justify-content: center;
+    }
 }
 
 /* Botones Anterior / Siguiente */
@@ -1257,6 +1934,311 @@ body {
     }
 }
 
+/* Tabla del índice: solo imagen y nombre del curso */
+.tabla-curso-imagen-cell {
+    width: 150px;
+    text-align: center;
+}
+
+.curso-imagen-btn {
+    width: 116px;
+    height: 78px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #e2e8f0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.curso-imagen-btn:hover,
+.curso-imagen-btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(0, 91, 190, 0.25);
+    outline: 2px solid #005BBE;
+    outline-offset: 2px;
+}
+
+.curso-imagen-miniatura {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.curso-imagen-placeholder {
+    padding: 8px;
+    color: #64748b;
+    font-size: 0.78rem;
+}
+
+/* Modal con toda la información entregada por /api/cursos */
+.modal-detalle-curso {
+    width: min(860px, calc(100% - 32px));
+    max-height: min(90vh, 820px);
+}
+
+.modal-detalle-curso-contenedor {
+    background: #fff;
+}
+
+.modal-detalle-curso-cuerpo {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.15fr);
+    gap: 28px;
+    padding: 28px;
+    overflow-y: auto;
+}
+
+.modal-detalle-curso-imagen-wrap {
+    min-height: 220px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-detalle-curso-imagen {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+}
+
+.modal-detalle-curso-titulo {
+    margin: 0 0 20px;
+    color: var(--azul-profundo);
+    font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.modal-detalle-curso-campos {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.detalle-curso-campo {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.detalle-curso-campo span,
+.modal-detalle-curso-descripcion h3 {
+    color: #0f172a;
+}
+
+.modal-detalle-curso-descripcion h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+}
+
+.modal-detalle-curso-descripcion p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.65;
+    white-space: pre-line;
+}
+
+.modal-detalle-curso-galeria {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.modal-detalle-curso-galeria h3 {
+    flex-basis: 100%;
+    margin: 0 0 2px;
+    color: #0f172a;
+    font-size: 0.9rem;
+}
+
+.detalle-curso-miniatura {
+    width: 58px;
+    height: 46px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.detalle-curso-miniatura img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 650px) {
+    .modal-detalle-curso-cuerpo {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .modal-detalle-curso-imagen-wrap,
+    .modal-detalle-curso-imagen {
+        min-height: 190px;
+        max-height: 280px;
+    }
+}
+
+/* ====================================================
+   DETALLE INDEPENDIENTE DE CURSO
+   ==================================================== */
+.modal-detalle-curso {
+    width: min(760px, calc(100% - 32px));
+    max-height: min(90vh, 760px);
+}
+
+.modal-detalle-curso-contenedor {
+    background: #f8fafc;
+}
+
+.modal-detalle-curso-cuerpo {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.9fr) minmax(0, 1.4fr);
+    gap: 24px;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.modal-detalle-curso-imagen-wrap {
+    min-height: 190px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #082055, #005bbe);
+}
+
+.modal-detalle-curso-imagen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 190px;
+    object-fit: cover;
+}
+
+.modal-detalle-curso-titulo {
+    margin: 0 0 18px;
+    color: var(--azul-profundo, #082055);
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    line-height: 1.2;
+}
+
+.modal-detalle-curso-campos {
+    display: grid;
+    gap: 10px;
+}
+
+.detalle-curso-campo {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.detalle-curso-campo strong {
+    color: #0f172a;
+    text-align: right;
+}
+
+.modal-detalle-curso-descripcion h3,
+.modal-detalle-curso-galeria h3 {
+    margin: 20px 0 6px;
+    color: #0f172a;
+    font-size: 1rem;
+}
+
+.modal-detalle-curso-descripcion p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.curso-imagen-btn {
+    display: block;
+    width: 86px;
+    height: 64px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #e2e8f0;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.curso-imagen-btn:hover,
+.curso-imagen-btn:focus-visible {
+    border-color: var(--azul-primario, #005bbe);
+    transform: scale(1.04);
+    outline: none;
+}
+
+.curso-imagen-miniatura,
+.curso-imagen-placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+    color: #64748b;
+    font-size: 0.72rem;
+}
+
+.modal-detalle-curso-galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.detalle-curso-miniatura {
+    width: 58px;
+    height: 46px;
+    padding: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #e2e8f0;
+}
+
+.detalle-curso-miniatura img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 600px) {
+    .modal-detalle-curso-cuerpo {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .modal-detalle-curso-imagen-wrap,
+    .modal-detalle-curso-imagen {
+        min-height: 160px;
+        max-height: 240px;
+    }
+}
+
 @media (max-width: 480px) {
     .carrusel {
         height: 300px;
@@ -1266,5 +2248,577 @@ body {
     .btn-next {
         width: 38px;
         height: 38px;
+    }
+}
+
+/* ====================================================
+   VENTANA FLOTANTE DE CURSOS Y TALLERES (MODAL)
+   ==================================================== */
+.modal-cursos {
+    width: min(1080px, calc(100% - 32px));
+    max-height: min(92vh, 900px);
+}
+
+.modal-cursos-contenedor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: min(92vh, 900px);
+    background: #f8fafc;
+}
+
+.modal-cursos-encabezado {
+    padding: 16px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-cursos-titulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--azul-profundo, #082055);
+    margin: 0 0 4px 0;
+}
+
+.modal-cursos-subtitulo {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.modal-cursos-cuerpo {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 20px 24px;
+    background: #f8fafc;
+}
+
+.modal-cursos-tabla-wrapper {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    overflow-x: auto;
+}
+
+.tabla-cursos-front {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.tabla-cursos-front thead th {
+    background: linear-gradient(135deg, #082055, #005BBE);
+    color: #ffffff;
+    padding: 14px 16px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: none;
+    white-space: nowrap;
+}
+
+.tabla-cursos-front thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.tabla-cursos-front thead th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.tabla-cursos-front tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.tabla-cursos-front tbody tr:last-child {
+    border-bottom: none;
+}
+
+.tabla-cursos-front tbody tr:hover {
+    background: #f0f7ff;
+}
+
+.tabla-cursos-front td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    color: #334155;
+    line-height: 1.45;
+}
+
+.curso-nombre-cell {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.95rem;
+}
+
+.badge-curso-duracion {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e0f2fe;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.badge-curso-costo {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.curso-fecha-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.curso-desc-cell {
+    font-size: 0.85rem;
+    color: #64748b;
+    max-width: 320px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-curso-fotos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #f1f5f9;
+    color: #005BBE;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-curso-fotos:hover {
+    background: #005BBE;
+    color: #ffffff;
+    border-color: #005BBE;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 91, 190, 0.25);
+}
+
+.btn-curso-fotos.sin-fotos {
+    background: transparent;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Empty state */
+.cursos-empty-msg {
+    text-align: center;
+    padding: 48px 24px;
+    color: #64748b;
+}
+
+.cursos-empty-msg svg {
+    color: #94a3b8;
+    margin-bottom: 12px;
+}
+
+.cursos-empty-msg p {
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Paginación */
+.modal-cursos-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    gap: 16px;
+}
+
+.cursos-paginacion-info {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0f172a;
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+/* ====================================================
+   MODAL VISOR DE FOTOS DEL CURSO
+   ==================================================== */
+.modal-galeria-curso {
+    width: min(720px, calc(100% - 32px));
+    max-height: min(90vh, 800px);
+}
+
+.modal-galeria-contenedor {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    max-height: min(90vh, 800px);
+}
+
+.modal-galeria-cuerpo {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.modal-galeria-titulo {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #082055;
+    text-align: center;
+    margin: 0;
+}
+
+.modal-galeria-visor {
+    width: 100%;
+    height: 380px;
+    background: #0f172a;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.galeria-img-principal {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.25s ease;
+}
+
+.galeria-curso-thumbnails {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    padding: 4px;
+}
+
+.galeria-thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.65;
+    transition: all 0.2s ease;
+}
+
+.galeria-thumb:hover {
+    opacity: 0.9;
+}
+
+.galeria-thumb.activa {
+    border-color: #005BBE;
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 91, 190, 0.35);
+}
+
+.galeria-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsividad para la tabla en móviles */
+@media (max-width: 768px) {
+    .modal-cursos {
+        width: calc(100% - 16px);
+        max-height: 94vh;
+    }
+
+    .modal-cursos-cuerpo {
+        padding: 12px 14px;
+    }
+
+    .modal-cursos-encabezado {
+        padding: 12px 16px;
+    }
+
+    .modal-cursos-footer {
+        padding: 10px 14px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-cursos-footer .modal-nav-grupo,
+    .modal-cursos-footer .modal-acciones-grupo {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .modal-cursos-footer .modal-btn-cerrar-footer {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ====================================================
+   CURSOS — GRILLA TIPO GALERÍA + DETALLE
+   (pegar AL FINAL de style.css)
+   ==================================================== */
+
+/* El modal del listado conserva su ancho; solo cambia el contenido */
+.cursos-grilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.curso-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    text-align: left;
+    font-family: inherit;
+    background: var(--blanco);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(8, 32, 85, 0.05);
+    transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion);
+    /* Tamaño uniforme para todas las tarjetas */
+    height: 260px;
+}
+
+.curso-card:hover,
+.curso-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--azul-primario);
+    box-shadow: 0 14px 28px -8px rgba(0, 91, 190, 0.3);
+    outline: none;
+}
+
+.curso-card:focus-visible {
+    outline: 2px solid var(--azul-primario);
+    outline-offset: 2px;
+}
+
+.curso-card-media {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: linear-gradient(135deg, var(--azul-primario), var(--azul-profundo));
+    overflow: hidden;
+}
+
+.curso-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.curso-card:hover .curso-card-media img {
+    transform: scale(1.06);
+}
+
+/* Sin foto: logo institucional centrado */
+.curso-card-media--vacio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.curso-card-media--vacio img {
+    width: 46%;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+}
+
+.curso-card:hover .curso-card-media--vacio img {
+    transform: none;
+}
+
+/* Nombre del curso superpuesto sobre la imagen */
+.curso-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 16px 14px 16px;
+    background: linear-gradient(to top, rgba(8, 32, 85, 0.88) 0%, rgba(8, 32, 85, 0.45) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    pointer-events: none;
+}
+
+.curso-card-overlay-titulo {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.curso-card-overlay-costo {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #bbf7d0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.curso-card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+    z-index: 2;
+    pointer-events: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.curso-card-badge svg {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+}
+
+/* Estado: Empieza en N días (Próximo) */
+.curso-card-badge--proximo {
+    background: rgba(0, 91, 190, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* Estado: En curso (Vigente) */
+.curso-card-badge--en_curso {
+    background: rgba(22, 101, 52, 0.94);
+    border: 1px solid rgba(134, 239, 172, 0.45);
+    color: #f0fdf4;
+    box-shadow: 0 2px 10px rgba(22, 101, 52, 0.45);
+}
+
+/* Estado: Finalizado (Visible por 7 días) */
+.curso-card-badge--finalizado {
+    background: rgba(71, 85, 105, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #f1f5f9;
+}
+
+/* Ya no se usa info debajo */
+.curso-card-info {
+    display: none;
+}
+
+.curso-card-titulo {
+    display: none;
+}
+
+.curso-card-costo {
+    display: none;
+}
+
+.cursos-empty-msg[hidden] {
+    display: none;
+}
+
+/* Fotos extra dentro del detalle del curso */
+.curso-detalle-fotos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--gris-claro);
+}
+
+.curso-detalle-fotos[hidden] {
+    display: none;
+}
+
+.curso-detalle-foto {
+    width: 76px;
+    height: 58px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #e2e8f0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transicion), border-color var(--transicion), transform var(--transicion);
+}
+
+.curso-detalle-foto:hover {
+    opacity: 1;
+}
+
+.curso-detalle-foto.activa {
+    opacity: 1;
+    border-color: var(--azul-primario);
+    transform: scale(1.04);
+}
+
+.curso-detalle-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .cursos-grilla {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
     }
 }

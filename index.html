@@ -116,6 +116,7 @@
     </div>
   </nav>
 
+
   <!-- ========== HERO PARALLAX VIDEO ========== -->
   <section class="parallax">
     <video autoplay muted loop playsinline class="video-bg">
@@ -168,10 +169,124 @@
         <div class="puntos" id="puntos"></div>
       </div>
     </div>
+    <!-- Ventana flotante de noticias (Modal interactivo) -->
+    <dialog id="modal-noticia" class="modal-noticia" aria-labelledby="modal-noticia-titulo"
+      aria-describedby="modal-noticia-descripcion">
+      <div class="modal-noticia-contenedor">
+        <!-- Barra superior / Header -->
+        <header class="modal-noticia-topbar">
+          <div class="modal-noticia-badge">
+            <span class="tag-dot"></span>
+            <span class="modal-badge-texto">NOTICIA OFICIAL</span>
+            <span class="modal-badge-separador">&bull;</span>
+            <span id="modal-noticia-contador" class="modal-badge-contador">1 de 1</span>
+          </div>
 
+          <button type="button" id="cerrar-modal-noticia" class="modal-noticia-cerrar" aria-label="Cerrar noticia"
+            title="Cerrar ventana (Esc)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+            </svg>
+          </button>
+        </header>
+
+        <!-- Cuerpo con scroll: contiene la imagen y toda la información -->
+        <article class="modal-noticia-cuerpo">
+          <!-- Cabecera de medios: Imagen de alta calidad o Banner institucional de respaldo -->
+          <div class="modal-noticia-media" id="modal-noticia-media">
+            <img id="modal-noticia-imagen" class="modal-noticia-imagen" alt="">
+            <div id="modal-noticia-banner-fallback" class="modal-noticia-banner-fallback" hidden>
+              <div class="banner-fallback-icono">
+                <img src="imagenes/logo1.png" alt="Municipalidad de El Carril">
+              </div>
+              <div class="banner-fallback-info">
+                <span class="banner-fallback-muni">Municipalidad de El Carril</span>
+                <span class="banner-fallback-sub">Gestión Municipal &bull; Información Oficial</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-noticia-detalle">
+            <!-- Metadatos de la noticia -->
+            <div class="modal-noticia-meta">
+              <div class="modal-meta-item modal-meta-fecha">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+                  aria-hidden="true">
+                  <path
+                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                </svg>
+                <time id="modal-noticia-fecha"></time>
+              </div>
+
+              <div class="modal-meta-item modal-meta-lectura" id="modal-noticia-lectura-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+                  aria-hidden="true">
+                  <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                </svg>
+                <span id="modal-noticia-lectura">1 min de lectura</span>
+              </div>
+
+              <span class="modal-meta-tag">Prensa El Carril</span>
+            </div>
+
+            <!-- Título completo -->
+            <h2 id="modal-noticia-titulo" class="modal-noticia-titulo"></h2>
+
+            <!-- Línea decorativa distintiva acorde al diseño -->
+            <div class="modal-noticia-divisor" aria-hidden="true"></div>
+
+            <!-- Descripción completa con soporte para TEXT (múltiples párrafos, listas, enlaces) -->
+            <div id="modal-noticia-descripcion" class="modal-noticia-descripcion"></div>
+          </div>
+        </article>
+
+        <!-- Barra inferior / Footer con navegación entre noticias y acciones -->
+        <footer class="modal-noticia-footer">
+          <div class="modal-nav-grupo">
+            <button type="button" id="modal-btn-prev" class="modal-btn-nav" aria-label="Ver noticia anterior"
+              title="Noticia anterior (Flecha izquierda)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+              </svg>
+              <span>Anterior</span>
+            </button>
+            <button type="button" id="modal-btn-next" class="modal-btn-nav" aria-label="Ver noticia siguiente"
+              title="Noticia siguiente (Flecha derecha)">
+              <span>Siguiente</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="modal-acciones-grupo">
+            <button type="button" id="modal-btn-compartir" class="modal-btn-accion modal-btn-compartir"
+              title="Compartir o copiar enlace">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path
+                  d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
+              </svg>
+              <span id="modal-compartir-texto">Compartir</span>
+            </button>
+
+            <button type="button" id="modal-btn-cerrar-footer" class="modal-btn-accion modal-btn-cerrar-footer">
+              Cerrar
+            </button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
     <!-- ========== SECCIÓN SERVICIOS ========== -->
     <div id="Servicios" class="servicios-wrapper">
-      <div class="section-title-wrap text-center">
+      <div cla ss="section-title-wrap text-center">
         <div class="section-tag center">
           <span class="tag-dot"></span>
           ATENCIÓN CIUDADANA
@@ -254,7 +369,8 @@
             </svg>
           </span>
         </a>
-        <a href="#">
+        <a href="javascript:void(0)" id="btn-servicio-cursos" role="button" aria-haspopup="dialog"
+          aria-label="Abrir cursos y talleres municipales">
           <div class="servicio-icon-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path
@@ -300,7 +416,267 @@
 
     <!-- Collage: se llena dinámicamente con JS -->
     <div class="collage-novedades" id="collage-novedades"></div>
+
+    <!-- Modal de detalle de evento -->
+    <dialog id="modal-evento" class="modal-evento" aria-labelledby="modal-evento-titulo"
+      aria-describedby="modal-evento-descripcion">
+      <div class="modal-noticia-contenedor">
+        <!-- Topbar -->
+        <header class="modal-noticia-topbar">
+          <div class="modal-noticia-badge">
+            <span class="tag-dot"></span>
+            <span class="modal-badge-texto">EVENTO</span>
+            <span class="modal-badge-separador">&bull;</span>
+            <span id="modal-evento-contador" class="modal-badge-contador">1 de 1</span>
+          </div>
+          <button type="button" id="cerrar-modal-evento" class="modal-noticia-cerrar" aria-label="Cerrar evento"
+            title="Cerrar (Esc)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+            </svg>
+          </button>
+        </header>
+
+        <!-- Cuerpo scrolleable (imagen + detalle juntos) -->
+        <article class="modal-noticia-cuerpo">
+          <!-- Media -->
+          <div class="modal-noticia-media" id="modal-evento-media">
+            <img id="modal-evento-imagen" class="modal-noticia-imagen" alt="">
+            <div id="modal-evento-banner-fallback" class="modal-noticia-banner-fallback modal-evento-banner" hidden>
+              <div class="banner-fallback-icono">
+                <img src="imagenes/logo1.png" alt="Municipalidad de El Carril">
+              </div>
+              <div class="banner-fallback-info">
+                <span class="banner-fallback-muni">Municipalidad de El Carril</span>
+                <span class="banner-fallback-sub">Agenda y Comunidad &bull; El Carril</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detalle -->
+          <div class="modal-noticia-detalle">
+            <div class="modal-noticia-meta">
+              <div class="modal-meta-item modal-meta-fecha">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+                  aria-hidden="true">
+                  <path
+                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                </svg>
+                <time id="modal-evento-fecha"></time>
+              </div>
+              <span class="modal-meta-tag modal-meta-tag-evento">Agenda El Carril</span>
+            </div>
+
+            <h2 id="modal-evento-titulo" class="modal-noticia-titulo"></h2>
+            <div class="modal-noticia-divisor" aria-hidden="true"></div>
+            <div id="modal-evento-descripcion" class="modal-noticia-descripcion"></div>
+          </div>
+        </article>
+
+        <!-- Footer con navegación -->
+        <footer class="modal-noticia-footer">
+          <div class="modal-nav-grupo">
+            <button type="button" id="modal-evento-btn-prev" class="modal-btn-nav" aria-label="Evento anterior"
+              title="Evento anterior (←)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+              </svg>
+              <span>Anterior</span>
+            </button>
+            <button type="button" id="modal-evento-btn-next" class="modal-btn-nav" aria-label="Evento siguiente"
+              title="Evento siguiente (→)">
+              <span>Siguiente</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+          </div>
+          <div class="modal-acciones-grupo">
+            <button type="button" id="modal-evento-btn-cerrar" class="modal-btn-accion modal-btn-cerrar-footer">
+              Cerrar
+            </button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
   </section>
+
+  <!-- ========== MODAL FLOTANTE — CURSOS Y TALLERES (GRILLA DE 10 POR PÁGINA) ========== -->
+  <dialog id="modal-cursos" class="modal-noticia modal-cursos" aria-labelledby="modal-cursos-titulo" aria-modal="true">
+    <div class="modal-noticia-contenedor modal-cursos-contenedor">
+      <header class="modal-noticia-topbar">
+        <div class="modal-noticia-badge">
+          <span class="tag-dot"></span>
+          <span class="modal-badge-texto">FORMACIÓN Y CAPACITACIÓN</span>
+          <span class="modal-badge-separador">&bull;</span>
+          <span id="modal-cursos-contador-total" class="modal-badge-contador">0 cursos</span>
+        </div>
+        <button type="button" id="cerrar-modal-cursos" class="modal-noticia-cerrar" aria-label="Cerrar cursos"
+          title="Cerrar (Esc)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"
+            aria-hidden="true">
+            <path
+              d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-cursos-encabezado">
+        <h2 id="modal-cursos-titulo" class="modal-cursos-titulo">Cursos y Talleres Municipales</h2>
+        <p class="modal-cursos-subtitulo">Capacitate en El Carril. Tocá un curso para ver sus fechas, duración y
+          arancel.</p>
+      </div>
+
+      <!-- Cuerpo con scroll: grilla de tarjetas (render dinámico) -->
+      <div class="modal-cursos-cuerpo" id="modal-cursos-cuerpo">
+        <div id="cursos-grilla" class="cursos-grilla"></div>
+
+        <div id="cursos-empty-msg" class="cursos-empty-msg" hidden>
+          <p>No hay cursos registrados en este momento. ¡Volvé a consultar pronto!</p>
+        </div>
+      </div>
+
+      <footer class="modal-noticia-footer modal-cursos-footer">
+        <div class="modal-nav-grupo">
+          <button type="button" id="cursos-btn-prev" class="modal-btn-nav" aria-label="Página anterior"
+            title="Página anterior">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+            </svg>
+            <span>Anterior</span>
+          </button>
+
+          <span id="cursos-paginacion-info" class="cursos-paginacion-info">Página 1 de 1</span>
+
+          <button type="button" id="cursos-btn-next" class="modal-btn-nav" aria-label="Página siguiente"
+            title="Página siguiente">
+            <span>Siguiente</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-acciones-grupo">
+          <button type="button" id="modal-cursos-btn-cerrar"
+            class="modal-btn-accion modal-btn-cerrar-footer">Cerrar</button>
+        </div>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- ========== MODAL DETALLE DE UN CURSO (misma estructura que la noticia) ========== -->
+  <dialog id="modal-curso" class="modal-noticia" aria-labelledby="modal-curso-titulo"
+    aria-describedby="modal-curso-descripcion">
+    <div class="modal-noticia-contenedor">
+      <header class="modal-noticia-topbar">
+        <div class="modal-noticia-badge">
+          <span class="tag-dot"></span>
+          <span class="modal-badge-texto">CURSO MUNICIPAL</span>
+          <span class="modal-badge-separador">&bull;</span>
+          <span id="modal-curso-contador" class="modal-badge-contador">1 de 1</span>
+        </div>
+        <button type="button" id="cerrar-modal-curso" class="modal-noticia-cerrar" aria-label="Cerrar curso"
+          title="Cerrar ventana (Esc)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"
+            aria-hidden="true">
+            <path
+              d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+          </svg>
+        </button>
+      </header>
+
+      <article class="modal-noticia-cuerpo">
+        <div class="modal-noticia-media">
+          <img id="modal-curso-imagen" class="modal-noticia-imagen" alt="">
+          <div id="modal-curso-banner-fallback" class="modal-noticia-banner-fallback" hidden>
+            <div class="banner-fallback-icono"><img src="imagenes/logo1.png" alt="Municipalidad de El Carril"></div>
+            <div class="banner-fallback-info">
+              <span class="banner-fallback-muni">Municipalidad de El Carril</span>
+              <span class="banner-fallback-sub">Cursos y Talleres &bull; Información Oficial</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-noticia-detalle">
+          <div class="modal-noticia-meta">
+            <div class="modal-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path
+                  d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+              </svg>
+              <span>Inicio: <time id="modal-curso-inicio"></time></span>
+            </div>
+            <div class="modal-meta-item modal-meta-lectura">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+                aria-hidden="true">
+                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+              </svg>
+              <span id="modal-curso-duracion"></span>
+            </div>
+            <span class="modal-meta-tag">Inscripción: <span id="modal-curso-costo"></span></span>
+          </div>
+
+          <h2 id="modal-curso-titulo" class="modal-noticia-titulo"></h2>
+          <div class="modal-noticia-divisor" aria-hidden="true"></div>
+          <div id="modal-curso-descripcion" class="modal-noticia-descripcion"></div>
+
+          <!-- Fotos adicionales: al tocar una, reemplaza la imagen de arriba -->
+          <div id="modal-curso-fotos" class="curso-detalle-fotos" hidden></div>
+        </div>
+      </article>
+
+      <footer class="modal-noticia-footer">
+        <div class="modal-nav-grupo">
+          <button type="button" id="curso-btn-prev" class="modal-btn-nav" aria-label="Curso anterior"
+            title="Curso anterior (Flecha izquierda)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+            </svg>
+            <span>Anterior</span>
+          </button>
+          <button type="button" id="curso-btn-next" class="modal-btn-nav" aria-label="Curso siguiente"
+            title="Curso siguiente (Flecha derecha)">
+            <span>Siguiente</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-acciones-grupo">
+          <button type="button" id="curso-btn-compartir" class="modal-btn-accion modal-btn-compartir"
+            title="Compartir o copiar enlace">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
+              aria-hidden="true">
+              <path
+                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
+            </svg>
+            <span id="curso-compartir-texto">Compartir</span>
+          </button>
+          <button type="button" id="curso-btn-cerrar" class="modal-btn-accion modal-btn-cerrar-footer">Volver a
+            cursos</button>
+        </div>
+      </footer>
+    </div>
+  </dialog>
+
 
   <!-- ========== FOOTER ========== -->
   <footer class="footer">

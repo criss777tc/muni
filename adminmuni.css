@@ -716,3 +716,99 @@ body {
         display: none;
     }
 }
+
+
+/* ============================================
+   CURSOS — BADGES Y GALERÍA EN DASHBOARD
+   ============================================ */
+.tabla-fotos-stack {
+    position: relative;
+    display: inline-block;
+}
+
+.badge-num-fotos {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: var(--azul-primario);
+    color: var(--blanco);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 999px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--blanco);
+}
+
+.badge-duracion {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.badge-costo {
+    display: inline-block;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.galeria-preview-multiples {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.galeria-info-text {
+    font-size: 0.8rem;
+    color: var(--gris-texto);
+    font-weight: 600;
+}
+
+.galeria-preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.thumb-preview-item {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--gris-claro);
+    box-shadow: var(--sombra-sm);
+    background: #f8fafc;
+}
+
+.thumb-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.thumb-preview-num {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    background: rgba(15, 23, 42, 0.75);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+}

@@ -70,6 +70,15 @@
             </svg>
             Eventos
         </button>
+        <button class="dash-tab" data-tab="cursos">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                    d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z" />
+                <path
+                    d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.566 4.176 9.032Z" />
+            </svg>
+            Cursos
+        </button>
     </nav>
 
     <!-- ========== CONTENIDO PRINCIPAL ========== -->
@@ -126,8 +135,13 @@
                 <input type="hidden" id="itemId">
 
                 <div class="form-group">
-                    <label for="itemNombre">Nombre</label>
+                    <label for="itemNombre" id="labelNombre">Nombre</label>
                     <input type="text" id="itemNombre" placeholder="Ingrese el nombre" required>
+                </div>
+
+                <div class="form-group" id="grupoDuracion" style="display:none;">
+                    <label for="itemDuracion">Duración del curso</label>
+                    <input type="text" id="itemDuracion" placeholder="Ej: 3 meses, 60 horas">
                 </div>
 
                 <div class="form-group">
@@ -135,12 +149,18 @@
                     <textarea id="itemDescripcion" rows="4" placeholder="Descripción detallada..." required></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="itemFecha">Fecha</label>
+                <div class="form-group" id="grupoFecha">
+                    <label for="itemFecha" id="labelFecha">Fecha</label>
                     <input type="date" id="itemFecha">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="grupoCosto" style="display:none;">
+                    <label for="itemCosto">Coste de inscripción</label>
+                    <input type="text" id="itemCosto" placeholder="Ej: Gratuito o $15.000">
+                </div>
+
+                <!-- Imagen única (Noticias y Eventos) -->
+                <div class="form-group" id="grupoImagenUnica">
                     <label for="itemImagen">Imagen</label>
                     <div class="file-upload" id="fileUploadZone">
                         <input type="file" id="itemImagen" accept="image/*">
@@ -163,6 +183,31 @@
                         </svg>
                         Recortar imagen
                     </button>
+                </div>
+
+                <!-- Imágenes múltiples (Cursos) -->
+                <div class="form-group" id="grupoImagenesMultiples" style="display:none;">
+                    <label for="itemImagenesMultiples">Imágen del curso</label>
+                    <div class="file-upload" id="fileUploadZoneMultiples">
+                        <input type="file" id="itemImagenesMultiples" multiple accept="image/*">
+                        <div class="file-upload__placeholder" id="placeholderMultiples">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                <path
+                                    d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <span>Selecciona una imágen</span>
+                        </div>
+                    </div>
+                    <div id="galeriaPreviewMultiples" class="galeria-preview-multiples"></div>
+                    <div id="opcionReemplazarWrap" style="display:none; margin-top: 8px;">
+                        <label
+                            style="font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="checkReemplazarImagenes">
+                            <span>Reemplazar fotos existentes con las nuevas seleccionadas</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="modal__footer">

@@ -95,13 +95,51 @@ function formatearFecha(fechaStr) {
 // TABS
 // ==========================================================
 
+function actualizarTituloSeccion() {
+    let titulo = 'Noticias';
+    if (tabActual === 'eventos') titulo = 'Eventos';
+    else if (tabActual === 'cursos') titulo = 'Cursos';
+    const el = document.getElementById('seccionTitulo');
+    if (el) el.textContent = titulo;
+}
+
+function actualizarCabeceraTabla() {
+    const thead = document.querySelector('#tablaDatos thead');
+    if (!thead) return;
+
+    if (tabActual === 'cursos') {
+        thead.innerHTML = `
+            <tr>
+                <th style="width: 50px;">ID</th>
+                <th style="width: 90px;">Fotos</th>
+                <th>Nombre del Curso</th>
+                <th style="width: 130px;">Duración</th>
+                <th style="width: 110px;">Fecha de Inicio</th>
+                <th style="width: 110px;">Costo</th>
+                <th>Descripción</th>
+                <th style="width: 100px;">Acciones</th>
+            </tr>
+        `;
+    } else {
+        thead.innerHTML = `
+            <tr>
+                <th style="width: 60px;">ID</th>
+                <th style="width: 90px;">Imagen</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th style="width: 110px;">Fecha</th>
+                <th style="width: 100px;">Acciones</th>
+            </tr>
+        `;
+    }
+}
+
 document.querySelectorAll('.dash-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         tabActual = tab.dataset.tab;
-        document.getElementById('seccionTitulo').textContent =
-            tabActual === 'noticias' ? 'Noticias' : 'Eventos';
+        actualizarTituloSeccion();
         cargarDatos();
     });
 });
@@ -110,18 +148,22 @@ document.querySelectorAll('.dash-tab').forEach(tab => {
 // CARGAR DATOS
 // ==========================================================
 
+let itemsActuales = [];
+
 async function cargarDatos() {
     const cuerpo = document.getElementById('tablaCuerpo');
     const vacio = document.getElementById('mensajeVacio');
     const tabla = document.getElementById('tablaDatos');
 
     cuerpo.innerHTML = '';
+    actualizarCabeceraTabla();
 
     try {
         const res = await fetch(`${API_BASE}/${tabActual}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const datos = await res.json();
+        itemsActuales = datos;
 
         if (datos.length === 0) {
             tabla.style.display = 'none';
@@ -132,48 +174,101 @@ async function cargarDatos() {
         tabla.style.display = '';
         vacio.style.display = 'none';
 
-        datos.forEach(item => {
-            const tr = document.createElement('tr');
+        if (tabActual === 'cursos') {
+            datos.forEach(curso => {
+                const tr = document.createElement('tr');
+                const id = curso.id_curso;
+                const nombre = curso.nombre_curso || '';
+                const duracion = curso.duracion_curso || 'A convenir';
+                const fecha = curso.fecha_inicio || curso['fecha de inicio'] || '';
+                const costo = curso.coste_inscripcion || 'Gratuito';
+                const desc = curso.descripcion_curso || '';
+                const imagenes = curso.imagenes || (curso.imagen ? [curso.imagen] : []);
 
-            const id = item.id || item.id_eventos;
-            const nombre = item.nombre || item.nombre_eventos || '';
-            const imagen = item.imagen || item.imagen_eventos || null;
-            const desc = item.descripcion || item.descripcion_eventos || '';
-            const fecha = item.fecha || item.fecha_eventos || '';
+                let fotosHtml = '';
+                if (imagenes.length > 0) {
+                    const primera = imagenUrl(imagenes[0]);
+                    fotosHtml = `
+                        <div class="tabla-fotos-stack" title="${imagenes.length} imagen(es)">
+                            <img src="${primera}" alt="${nombre}" class="table-img">
+                            ${imagenes.length > 1 ? `<span class="badge-num-fotos">+${imagenes.length}</span>` : ''}
+                        </div>
+                    `;
+                } else {
+                    fotosHtml = `<div class="table-img-placeholder">SIN FOTO</div>`;
+                }
 
-            const imgUrl = imagenUrl(imagen);
+                tr.innerHTML = `
+                    <td><strong>${id}</strong></td>
+                    <td>${fotosHtml}</td>
+                    <td><strong>${nombre}</strong></td>
+                    <td><span class="badge-duracion">${duracion}</span></td>
+                    <td>${formatearFecha(fecha)}</td>
+                    <td><span class="badge-costo">${costo}</span></td>
+                    <td class="table-desc" title="${desc}">${desc}</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn--icon edit" title="Editar curso" onclick="abrirEditarPorId(${id})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn--icon delete" title="Eliminar curso" onclick="abrirEliminarPorId(${id})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h2.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                cuerpo.appendChild(tr);
+            });
+        } else {
+            datos.forEach(item => {
+                const tr = document.createElement('tr');
 
-            tr.innerHTML = `
-                <td><strong>${id}</strong></td>
-                <td>
-                    ${imgUrl
-                        ? `<img src="${imgUrl}" alt="${nombre}" class="table-img">`
-                        : `<div class="table-img-placeholder">SIN IMG</div>`
-                    }
-                </td>
-                <td>${nombre}</td>
-                <td class="table-desc" title="${desc}">${desc}</td>
-                <td>${formatearFecha(fecha)}</td>
-                <td>
-                    <div class="table-actions">
-                        <button class="btn--icon edit" title="Editar" onclick="abrirEditar(${id}, '${nombre.replace(/'/g, "\\'")}', '${desc.replace(/'/g, "\\'")}', '${fecha}', '${imagen || ''}')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                            </svg>
-                        </button>
-                        <button class="btn--icon delete" title="Eliminar" onclick="abrirEliminar(${id}, '${nombre.replace(/'/g, "\\'")}')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h2.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            `;
+                const id = item.id || item.id_eventos;
+                const nombre = item.nombre || item.nombre_eventos || '';
+                const imagen = item.imagen || item.imagen_eventos || null;
+                const desc = item.descripcion || item.descripcion_eventos || '';
+                const fecha = item.fecha || item.fecha_eventos || '';
 
-            cuerpo.appendChild(tr);
-        });
+                const imgUrl = imagenUrl(imagen);
+
+                tr.innerHTML = `
+                    <td><strong>${id}</strong></td>
+                    <td>
+                        ${imgUrl
+                            ? `<img src="${imgUrl}" alt="${nombre}" class="table-img">`
+                            : `<div class="table-img-placeholder">SIN IMG</div>`
+                        }
+                    </td>
+                    <td>${nombre}</td>
+                    <td class="table-desc" title="${desc}">${desc}</td>
+                    <td>${formatearFecha(fecha)}</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn--icon edit" title="Editar" onclick="abrirEditarPorId(${id})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn--icon delete" title="Eliminar" onclick="abrirEliminarPorId(${id})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h2.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+
+                cuerpo.appendChild(tr);
+            });
+        }
 
     } catch (error) {
         console.error('Error al cargar datos:', error);
@@ -198,7 +293,39 @@ document.addEventListener('DOMContentLoaded', async () => {
 const modalOverlay = document.getElementById('modalOverlay');
 const formItem = document.getElementById('formItem');
 
+function configurarFormularioSegunTab() {
+    const grupoDuracion = document.getElementById('grupoDuracion');
+    const grupoCosto = document.getElementById('grupoCosto');
+    const grupoFecha = document.getElementById('grupoFecha');
+    const labelFecha = document.getElementById('labelFecha');
+    const labelNombre = document.getElementById('labelNombre');
+    const grupoImagenUnica = document.getElementById('grupoImagenUnica');
+    const grupoImagenesMultiples = document.getElementById('grupoImagenesMultiples');
+    const itemNombre = document.getElementById('itemNombre');
+
+    if (tabActual === 'cursos') {
+        if (labelNombre) labelNombre.textContent = 'Nombre del curso';
+        if (itemNombre) itemNombre.placeholder = 'Ej: Taller de Fotografía y Edición Digital';
+        if (grupoDuracion) grupoDuracion.style.display = 'block';
+        if (grupoCosto) grupoCosto.style.display = 'block';
+        if (grupoFecha) grupoFecha.style.display = 'block';
+        if (labelFecha) labelFecha.textContent = 'Fecha de inicio';
+        if (grupoImagenUnica) grupoImagenUnica.style.display = 'none';
+        if (grupoImagenesMultiples) grupoImagenesMultiples.style.display = 'block';
+    } else {
+        if (labelNombre) labelNombre.textContent = 'Nombre';
+        if (itemNombre) itemNombre.placeholder = 'Ingrese el nombre';
+        if (grupoDuracion) grupoDuracion.style.display = 'none';
+        if (grupoCosto) grupoCosto.style.display = 'none';
+        if (grupoFecha) grupoFecha.style.display = 'block';
+        if (labelFecha) labelFecha.textContent = 'Fecha';
+        if (grupoImagenUnica) grupoImagenUnica.style.display = 'block';
+        if (grupoImagenesMultiples) grupoImagenesMultiples.style.display = 'none';
+    }
+}
+
 function abrirModal() {
+    configurarFormularioSegunTab();
     modalOverlay.classList.add('open');
 }
 
@@ -209,15 +336,31 @@ function cerrarModal() {
     document.getElementById('imagePreview').style.display = 'none';
     document.getElementById('filePlaceholder').style.display = '';
     document.getElementById('btnRecortar').style.display = 'none';
+
+    // Limpieza de campos de cursos
+    const itemDuracion = document.getElementById('itemDuracion');
+    if (itemDuracion) itemDuracion.value = '';
+    const itemCosto = document.getElementById('itemCosto');
+    if (itemCosto) itemCosto.value = '';
+    const galeriaPreview = document.getElementById('galeriaPreviewMultiples');
+    if (galeriaPreview) galeriaPreview.innerHTML = '';
+    const checkReemplazar = document.getElementById('checkReemplazarImagenes');
+    if (checkReemplazar) checkReemplazar.checked = false;
+    const opcionReemplazar = document.getElementById('opcionReemplazarWrap');
+    if (opcionReemplazar) opcionReemplazar.style.display = 'none';
+
     editandoId = null;
 }
 
 // Botón "Agregar nuevo"
 document.getElementById('btnNuevo').addEventListener('click', () => {
     editandoId = null;
-    document.getElementById('modalTitulo').textContent =
-        `Agregar ${tabActual === 'noticias' ? 'Noticia' : 'Evento'}`;
     cerrarModal(); // limpia
+    let etiqueta = 'Noticia';
+    if (tabActual === 'eventos') etiqueta = 'Evento';
+    else if (tabActual === 'cursos') etiqueta = 'Curso';
+
+    document.getElementById('modalTitulo').textContent = `Agregar ${etiqueta}`;
     abrirModal();
 });
 
@@ -228,7 +371,7 @@ modalOverlay.addEventListener('click', (e) => {
     if (e.target === modalOverlay) cerrarModal();
 });
 
-// Preview de imagen seleccionada
+// Preview de imagen seleccionada (Noticias / Eventos)
 document.getElementById('itemImagen').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -243,6 +386,57 @@ document.getElementById('itemImagen').addEventListener('change', (e) => {
         reader.readAsDataURL(file);
     }
 });
+
+// Preview de múltiples imágenes (Cursos)
+const inputMultiples = document.getElementById('itemImagenesMultiples');
+if (inputMultiples) {
+    inputMultiples.addEventListener('change', (e) => {
+        const galeria = document.getElementById('galeriaPreviewMultiples');
+        if (!galeria) return;
+
+        // Mantener las fotos existentes renderizadas si las hay, o resetear
+        const fotosExistentes = galeria.querySelectorAll('.thumb-existente');
+        galeria.innerHTML = '';
+
+        if (fotosExistentes.length > 0) {
+            const headerExistentes = document.createElement('div');
+            headerExistentes.className = 'galeria-info-text';
+            headerExistentes.textContent = 'Fotos ya guardadas:';
+            galeria.appendChild(headerExistentes);
+
+            const gridExist = document.createElement('div');
+            gridExist.className = 'galeria-preview-grid';
+            fotosExistentes.forEach(el => gridExist.appendChild(el));
+            galeria.appendChild(gridExist);
+        }
+
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        const info = document.createElement('div');
+        info.className = 'galeria-info-text';
+        info.textContent = `${files.length} foto(s) nueva(s) seleccionada(s):`;
+        galeria.appendChild(info);
+
+        const grid = document.createElement('div');
+        grid.className = 'galeria-preview-grid';
+
+        files.forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const item = document.createElement('div');
+                item.className = 'thumb-preview-item';
+                item.innerHTML = `
+                    <img src="${ev.target.result}" alt="Foto ${idx + 1}">
+                    <span class="thumb-preview-num">${idx + 1}</span>
+                `;
+                grid.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
+        galeria.appendChild(grid);
+    });
+}
 
 // ==========================================================
 // RECORTE DE IMAGEN (Cropper.js)
@@ -327,6 +521,91 @@ document.getElementById('btnConfirmarCrop').addEventListener('click', () => {
     }, 'image/jpeg', 0.92);
 });
 
+// Funciones seguras para abrir edición y eliminación por ID
+function abrirEditarPorId(id) {
+    if (tabActual === 'cursos') {
+        const curso = itemsActuales.find(x => x.id_curso === id);
+        if (!curso) return;
+        abrirEditarCurso(curso);
+    } else {
+        const item = itemsActuales.find(x => (x.id || x.id_eventos) === id);
+        if (!item) return;
+        abrirEditar(
+            id,
+            item.nombre || item.nombre_eventos || '',
+            item.descripcion || item.descripcion_eventos || '',
+            item.fecha || item.fecha_eventos || '',
+            item.imagen || item.imagen_eventos || ''
+        );
+    }
+}
+
+function abrirEliminarPorId(id) {
+    if (tabActual === 'cursos') {
+        const item = itemsActuales.find(x => x.id_curso === id);
+        const nombre = item ? (item.nombre_curso || `Curso #${id}`) : `Curso #${id}`;
+        abrirEliminar(id, nombre);
+    } else {
+        const item = itemsActuales.find(x => (x.id || x.id_eventos) === id);
+        const nombre = item ? (item.nombre || item.nombre_eventos || '') : '';
+        abrirEliminar(id, nombre);
+    }
+}
+
+function abrirEditarCurso(curso) {
+    cerrarModal();
+    editandoId = curso.id_curso;
+
+    document.getElementById('modalTitulo').textContent = `Editar Curso #${curso.id_curso}`;
+    document.getElementById('itemId').value = curso.id_curso;
+    document.getElementById('itemNombre').value = curso.nombre_curso || '';
+    document.getElementById('itemDescripcion').value = curso.descripcion_curso || '';
+
+    const durEl = document.getElementById('itemDuracion');
+    if (durEl) durEl.value = curso.duracion_curso || '';
+
+    const fecEl = document.getElementById('itemFecha');
+    if (fecEl) fecEl.value = curso.fecha_inicio || curso['fecha de inicio'] || '';
+
+    const cosEl = document.getElementById('itemCosto');
+    if (cosEl) cosEl.value = curso.coste_inscripcion || '';
+
+    const galeria = document.getElementById('galeriaPreviewMultiples');
+    const opcionReemplazar = document.getElementById('opcionReemplazarWrap');
+    const checkReemplazar = document.getElementById('checkReemplazarImagenes');
+    if (checkReemplazar) checkReemplazar.checked = false;
+
+    if (galeria) {
+        galeria.innerHTML = '';
+        const imagenes = curso.imagenes || (curso.imagen ? [curso.imagen] : []);
+        if (imagenes.length > 0) {
+            const header = document.createElement('div');
+            header.className = 'galeria-info-text';
+            header.textContent = `Fotos actuales (${imagenes.length}):`;
+            galeria.appendChild(header);
+
+            const grid = document.createElement('div');
+            grid.className = 'galeria-preview-grid';
+            imagenes.forEach((imgRuta, idx) => {
+                const item = document.createElement('div');
+                item.className = 'thumb-preview-item thumb-existente';
+                item.innerHTML = `
+                    <img src="${imagenUrl(imgRuta)}" alt="Foto actual ${idx + 1}">
+                    <span class="thumb-preview-num">${idx + 1}</span>
+                `;
+                grid.appendChild(item);
+            });
+            galeria.appendChild(grid);
+            if (opcionReemplazar) opcionReemplazar.style.display = 'block';
+        } else {
+            galeria.innerHTML = '<span style="font-size:0.85rem; color:#94a3b8;">Sin fotos guardadas actualmente</span>';
+            if (opcionReemplazar) opcionReemplazar.style.display = 'none';
+        }
+    }
+
+    abrirModal();
+}
+
 // Abrir modal para editar
 function abrirEditar(id, nombre, descripcion, fecha, imagen) {
     editandoId = id;
@@ -363,6 +642,84 @@ function abrirEditar(id, nombre, descripcion, fecha, imagen) {
 formItem.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (tabActual === 'cursos') {
+        const nombre = document.getElementById('itemNombre').value.trim();
+        const descripcion = document.getElementById('itemDescripcion').value.trim();
+        const duracion = document.getElementById('itemDuracion') ? document.getElementById('itemDuracion').value.trim() : '';
+        const fecha = document.getElementById('itemFecha').value;
+        const costo = document.getElementById('itemCosto') ? document.getElementById('itemCosto').value.trim() : '';
+        const inputFiles = document.getElementById('itemImagenesMultiples');
+        const checkReemplazar = document.getElementById('checkReemplazarImagenes');
+
+        if (!nombre || !descripcion) {
+            mostrarToast('El nombre y la descripción del curso son obligatorios', 'error');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('nombre_curso', nombre);
+        formData.append('descripcion_curso', descripcion);
+        formData.append('duracion_curso', duracion);
+        formData.append('fecha_inicio', fecha);
+        formData.append('coste_inscripcion', costo);
+
+        if (editandoId) {
+            formData.append('reemplazar_imagenes', (checkReemplazar && checkReemplazar.checked) ? 'true' : 'false');
+        }
+
+        if (inputFiles && inputFiles.files && inputFiles.files.length > 0) {
+            for (let i = 0; i < inputFiles.files.length; i++) {
+                formData.append('imagenes', inputFiles.files[i]);
+            }
+        }
+
+        try {
+            let url = `${API_BASE}/cursos`;
+            let method = 'POST';
+
+            if (editandoId) {
+                url = `${API_BASE}/cursos/${editandoId}`;
+                method = 'PUT';
+            }
+
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (res.status === 401) {
+                alert('Tu sesión ha expirado. Por favor inicia sesión de nuevo.');
+                localStorage.removeItem('token');
+                localStorage.removeItem('usuario');
+                window.location.replace('admin2.html');
+                return;
+            }
+
+            if (res.ok) {
+                mostrarToast(
+                    editandoId
+                        ? 'Curso actualizado correctamente'
+                        : 'Curso creado correctamente',
+                    'success'
+                );
+                cerrarModal();
+                cargarDatos();
+            } else {
+                mostrarToast(data.error || 'Error al guardar el curso', 'error');
+            }
+        } catch (error) {
+            console.error('Error al guardar curso:', error);
+            mostrarToast('Error de conexión con el servidor', 'error');
+        }
+        return;
+    }
+
+    // Tab Noticias o Eventos
     const nombre = document.getElementById('itemNombre').value.trim();
     const descripcion = document.getElementById('itemDescripcion').value.trim();
     const fecha = document.getElementById('itemFecha').value;
@@ -454,7 +811,11 @@ document.getElementById('btnConfirmarDelete').addEventListener('click', async ()
     if (!eliminandoId) return;
 
     try {
-        const res = await fetch(`${API_BASE}/${tabActual}/${eliminandoId}`, {
+        const url = tabActual === 'cursos'
+            ? `${API_BASE}/cursos/${eliminandoId}`
+            : `${API_BASE}/${tabActual}/${eliminandoId}`;
+
+        const res = await fetch(url, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
