@@ -1,0 +1,196 @@
+/* ====================================================
+   PÁGINA GOBIERNO MUNICIPAL
+   (usa las variables y la tipografía de style.css)
+   ==================================================== */
+
+/* Alinea el contenido con el ancho de las secciones de la portada. */
+.seccion-contenedor {
+    width: min(1180px, calc(100% - 40px));
+    margin-inline: auto;
+}
+/* ---------- banda de título ---------- */
+.gob-banda {
+    padding: 38px 0;
+    background: linear-gradient(90deg, #0a4fa8 0%, #03296b 100%);
+    border-bottom: 4px solid var(--cyan-accent);
+}
+
+.gob-banda-titulo {
+    margin: 0;
+    padding-left: clamp(0px, 3.6vw, 58px);
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    text-transform: none;
+    color: var(--blanco);
+}
+
+/* ---------- fondo y grilla ---------- */
+.gob-main {
+    position: relative;
+    padding: 56px 0 90px;
+    background:
+        radial-gradient(circle 460px at 94% 20%, rgba(0, 91, 190, 0.09), transparent 70%),
+        radial-gradient(circle 440px at 4% 80%, rgba(90, 200, 216, 0.14), transparent 70%),
+        radial-gradient(rgba(0, 91, 190, 0.07) 1.5px, transparent 1.6px) 0 0 / 26px 26px,
+        linear-gradient(180deg, #e3ebf6 0%, #f8fafd 60%, #ffffff 100%);
+}
+
+.gob-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 2.4rem;
+    align-items: start;
+}
+
+/* ---------- tarjeta de la foto (queda fija al leer) ---------- */
+.gob-foto {
+    position: sticky;
+    top: 96px;
+    overflow: hidden;
+    background: var(--blanco);
+    border: 1px solid #dbe5f2;
+    border-radius: 24px;
+    box-shadow: 0 6px 16px rgba(8, 32, 85, 0.1), 0 24px 48px rgba(8, 32, 85, 0.14);
+}
+
+.gob-foto img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.gob-foto-caption {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.6;
+    letter-spacing: 1.5px;
+    color: var(--blanco);
+    background: linear-gradient(90deg, #0a4fa8, #03296b);
+    border-top: 4px solid var(--cyan-accent);
+}
+
+/* ---------- tarjeta de texto ---------- */
+.gob-texto {
+    padding: 2.3rem 2.4rem;
+    background: var(--blanco);
+    border: 1px solid #dbe5f2;
+    border-radius: 24px;
+    box-shadow: 0 2px 6px rgba(8, 32, 85, 0.06), 0 14px 34px rgba(8, 32, 85, 0.1);
+}
+
+.gob-cargo {
+    margin-bottom: 0.3rem;
+    font-size: clamp(2.1rem, 4vw, 2.7rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--azul-profundo);
+}
+
+.gob-nombre {
+    margin-bottom: 1.6rem;
+    padding-bottom: 1.4rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+    font-weight: 500;
+    color: var(--azul-primario);
+    border-bottom: 1px solid #dbe5f2;
+}
+
+.gob-parrafo {
+    margin-bottom: 1.15rem;
+    font-size: 0.98rem;
+    line-height: 1.85;
+    color: var(--gris-texto);
+}
+
+/* ---------- frase destacada ---------- */
+.gob-cita {
+    margin: 1.8rem 0 0.5rem;
+    padding: 1.3rem 1.6rem;
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--azul-profundo);
+    background: #f2f6fc;
+    border: 1px solid #dbe5f2;
+    border-left: 5px solid var(--azul-primario);
+    border-radius: 0 16px 16px 0;
+}
+
+/* ---------- redes ---------- */
+.gob-redes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #dbe5f2;
+}
+
+.gob-red {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--blanco);
+    border: 2px solid #dbe5f2;
+    transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion);
+}
+
+.gob-red.instagram img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.gob-red.facebook img {
+    width: 49px;
+    height: 49px;
+    object-fit: contain;
+}
+
+.gob-red:hover {
+    transform: translateY(-3px) scale(1.08);
+    border-color: var(--azul-primario);
+    box-shadow: 0 8px 20px rgba(8, 32, 85, 0.2);
+}
+
+.gob-red:focus-visible {
+    outline: 3px solid var(--cyan-accent);
+    outline-offset: 2px;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+    .gob-grid {
+        grid-template-columns: 1fr;
+        gap: 1.6rem;
+    }
+
+    .gob-foto {
+        position: static;
+        max-width: 340px;
+        margin: 0 auto;
+    }
+
+    .gob-texto {
+        padding: 1.8rem 1.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .gob-banda-titulo {
+        padding-left: 0;
+    }
+
+    .gob-main {
+        padding: 36px 0 70px;
+    }
+}

@@ -144,11 +144,8 @@ function renderNovedades(eventos) {
 
     actualizarContenidoCollage(false);
 
-    // Pausar rotación si el usuario interactúa / hover
-    collage.onmouseenter = detenerRotacionCollage;
-    collage.onmouseleave = iniciarRotacionCollage;
-
-    // Solo iniciar rotación si hay más de 1 evento
+    // La rotación se mantiene activa mientras se observa el layout.
+    // Solo se pausa al abrir el detalle de un evento.
     if (eventosCollage.length > 1) {
         iniciarRotacionCollage();
     }
@@ -202,20 +199,9 @@ function actualizarContenidoCollage(conTransicion = true) {
                 <h2>${escaparHTML(e.nombre)}</h2>
                 <p>${escaparHTML(e.descripcion || '')}</p>
                 ${fechaGrande ? `<small class="fecha-evento">${fechaGrande}</small>` : ''}
-                <button type="button" class="btn-ver-evento" aria-label="Ver más sobre este evento">
-                    Ver más
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                </button>
             </div>
         `;
-
         // Clic en el botón "Ver más" → abre el modal
-        grande.querySelector('.btn-ver-evento').addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            abrirEvento(offsetCollage);
-        });
         // Clic en la tarjeta grande (fuera del botón) → también abre el modal
         grande.addEventListener('click', () => abrirEvento(offsetCollage));
 
@@ -249,6 +235,18 @@ function actualizarContenidoCollage(conTransicion = true) {
 
             collage.appendChild(chicas);
         }
+
+        const enlaceTodos = document.createElement('a');
+        enlaceTodos.className = 'enlace-todos-eventos';
+        enlaceTodos.href = 'eventos.html';
+        enlaceTodos.setAttribute('aria-label', 'Ver todos los eventos');
+        enlaceTodos.innerHTML = `
+            Ver todos los eventos
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708l5.647-5.646-5.647-5.646a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        `;
+        collage.appendChild(enlaceTodos);
     };
 
     if (conTransicion) {
@@ -403,10 +401,60 @@ function renderCarrusel(noticias) {
 
     indiceActual = 0;
     actualizarPosicion();
+    configurarGestosCarrusel();
     iniciarAutoplay();
 
     // Comprobar si la URL viene con hash para abrir una noticia directamente (ej: #noticia-4)
     revisarHashUrlNoticia();
+}
+
+// ====================================================
+//  GESTOS TÁCTILES DEL CARRUSEL
+// ====================================================
+function configurarGestosCarrusel() {
+    const carrusel = document.getElementById('noticias');
+    if (!carrusel || carrusel.dataset.gestosConfigurados === 'true') return;
+
+    carrusel.dataset.gestosConfigurados = 'true';
+
+    let inicioX = 0;
+    let inicioY = 0;
+    let desplazamientoHorizontal = false;
+
+    carrusel.addEventListener('pointerdown', (evento) => {
+        if (evento.pointerType !== 'touch') return;
+        inicioX = evento.clientX;
+        inicioY = evento.clientY;
+        desplazamientoHorizontal = false;
+        carrusel.setPointerCapture?.(evento.pointerId);
+    });
+
+    carrusel.addEventListener('pointermove', (evento) => {
+        if (evento.pointerType !== 'touch') return;
+
+        const desplazamientoX = evento.clientX - inicioX;
+        const desplazamientoY = evento.clientY - inicioY;
+
+        if (Math.abs(desplazamientoX) > 10 && Math.abs(desplazamientoX) > Math.abs(desplazamientoY)) {
+            desplazamientoHorizontal = true;
+            evento.preventDefault();
+        }
+    }, { passive: false });
+
+    const finalizarGestura = (evento) => {
+        if (evento.pointerType !== 'touch') return;
+
+        const desplazamientoX = evento.clientX - inicioX;
+        if (desplazamientoHorizontal && Math.abs(desplazamientoX) >= 50) {
+            mover(desplazamientoX < 0 ? 1 : -1);
+        }
+
+        carrusel.releasePointerCapture?.(evento.pointerId);
+        desplazamientoHorizontal = false;
+    };
+
+    carrusel.addEventListener('pointerup', finalizarGestura);
+    carrusel.addEventListener('pointercancel', finalizarGestura);
 }
 
 // ====================================================
@@ -514,40 +562,7 @@ function navegarNoticiaModal(direccion) {
 async function compartirNoticiaModal() {
     const noticia = noticiasCarrusel[indiceNoticiaModal];
     if (!noticia) return;
-
-    const shareUrl = window.location.href;
-    const shareTitle = `${noticia.nombre} — Municipalidad de El Carril`;
-    const btn = document.getElementById('modal-btn-compartir');
-    const txt = document.getElementById('modal-compartir-texto');
-
-    if (navigator.share && navigator.canShare && navigator.canShare({ title: shareTitle, url: shareUrl })) {
-        try {
-            await navigator.share({
-                title: shareTitle,
-                text: noticia.nombre,
-                url: shareUrl
-            });
-            return;
-        } catch (err) {
-            if (err.name === 'AbortError') return;
-        }
-    }
-
-    // Fallback: copiar al portapapeles con confirmación visual
-    try {
-        await navigator.clipboard.writeText(shareUrl);
-        if (btn && txt) {
-            const original = txt.textContent;
-            btn.classList.add('copiado');
-            txt.textContent = '¡Copiado!';
-            setTimeout(() => {
-                btn.classList.remove('copiado');
-                txt.textContent = original;
-            }, 2000);
-        }
-    } catch (err) {
-        console.warn('No se pudo copiar al portapapeles:', err);
-    }
+    abrirModalCompartir(`${noticia.nombre} — Municipalidad de El Carril`, noticia.nombre);
 }
 
 // Abre la noticia si la URL ya incluye #noticia-X
@@ -676,6 +691,12 @@ function abrirEvento(indice) {
     // Descripción con formato rico
     const descEl = document.getElementById('modal-evento-descripcion');
     if (descEl) descEl.innerHTML = formatearDescripcionNoticia(ev.descripcion || '');
+
+    const ubicacion = ev.ubicacion_evento || ev.ubicacion || '';
+    const ubicacionWrap = document.getElementById('modal-evento-ubicacion');
+    const ubicacionEl = document.getElementById('modal-evento-ubicacion-texto');
+    if (ubicacionEl) ubicacionEl.textContent = ubicacion;
+    if (ubicacionWrap) ubicacionWrap.hidden = !ubicacion;
 
     // Navegación habilitada solo si hay más de 1 evento
     const btnPrev = document.getElementById('modal-evento-btn-prev');
@@ -815,50 +836,134 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ====================================================
+//  VENTANA DE COMPARTIR — NOTICIAS, EVENTOS Y CURSOS
+// ====================================================
+const modalCompartir = document.getElementById('modal-compartir');
+const compartirUrl = document.getElementById('modal-compartir-url');
+const compartirEstado = document.getElementById('modal-compartir-estado');
+let datosCompartir = { title: '', text: '', url: '' };
+
+function abrirModalCompartir(title, text, url = window.location.href) {
+    if (!modalCompartir) return;
+    datosCompartir = { title, text, url };
+    compartirUrl.value = url;
+    compartirEstado.textContent = '';
+    modalCompartir.showModal();
+}
+
+async function copiarTextoCompartir(texto, mensaje = 'Enlace copiado') {
+    try {
+        await navigator.clipboard.writeText(texto);
+        compartirEstado.textContent = mensaje;
+    } catch {
+        compartirUrl.focus();
+        compartirUrl.select();
+        compartirEstado.textContent = 'Seleccioná el enlace y copialo manualmente';
+    }
+}
+
+function compartirEventoModal() {
+    const evento = eventosCollage[indiceEventoModal];
+    if (!evento) return;
+    const id = evento.id || indiceEventoModal + 1;
+    abrirModalCompartir(`${evento.nombre || 'Evento'} — Municipalidad de El Carril`, evento.nombre || 'Evento', `${window.location.href.split('#')[0]}#evento-${id}`);
+}
+
+if (modalCompartir) {
+    document.getElementById('modal-compartir-cerrar')?.addEventListener('click', () => modalCompartir.close());
+    modalCompartir.addEventListener('click', (event) => {
+        if (event.target === modalCompartir) modalCompartir.close();
+    });
+
+    document.getElementById('modal-compartir-copiar')?.addEventListener('click', () => copiarTextoCompartir(datosCompartir.url));
+}
+
+document.getElementById('modal-evento-btn-compartir')?.addEventListener('click', compartirEventoModal);
+
 
 
 // ============================================================
-//  WIDGET DEL CLIMA (API OpenWeatherMap)
-//  Asume que la API devuelve texto en español
+//  BOTON FLOTANTE DEL CLIMA DE EL CARRIL
 // ============================================================
 (function () {
-    // Coordenadas oficiales de El Carril, Salta (CP 4421)
     const LAT = -25.07185;
     const LON = -65.49302;
-    const estadosClima = {
-        0: { desc: "Despejado", icono: "☀️" },
-        1: { desc: "Mayormente despejado", icono: "🌤️" },
-        2: { desc: "Parcialmente nublado", icono: "⛅" },
-        3: { desc: "Nublado", icono: "☁️" },
-        45: { desc: "Niebla", icono: "🌫️" },
-        51: { desc: "Llovizna leve", icono: "🌦️" },
-        61: { desc: "Lluvia leve", icono: "🌧️" },
-        63: { desc: "Lluvia moderada", icono: "🌧️" },
-        65: { desc: "Lluvia fuerte", icono: "🌧️" },
-        80: { desc: "Chaparrones", icono: "🌧️" },
-        95: { desc: "Tormenta eléctrica", icono: "⛈️" }
+    const wrapper = document.getElementById('clima-flotante');
+    const boton = document.getElementById('clima-toggle');
+    const panel = document.getElementById('widget-clima-carril');
+    const cerrar = document.getElementById('clima-cerrar');
+    const icono = document.getElementById('carril-icono');
+    const salida = {
+        temp: document.getElementById('carril-temp'),
+        estado: document.getElementById('carril-estado'),
+        humedad: document.getElementById('carril-humedad'),
+        viento: document.getElementById('carril-viento')
     };
+
+    if (!wrapper || !boton || !panel || !icono) return;
+
+    const iconos = {
+        nublado: '<path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>',
+        soleado: '<path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>',
+        lluvia: '<path d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317m3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317m.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2"/>',
+        noche: '<path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>'
+    };
+    const estadosClima = {
+        0: 'Despejado', 1: 'Mayormente despejado', 2: 'Parcialmente nublado', 3: 'Nublado',
+        45: 'Niebla', 48: 'Niebla helada', 51: 'Llovizna leve', 53: 'Llovizna', 55: 'Llovizna intensa',
+        56: 'Llovizna helada', 57: 'Llovizna helada intensa', 61: 'Lluvia leve', 63: 'Lluvia moderada',
+        65: 'Lluvia fuerte', 66: 'Lluvia helada', 67: 'Lluvia helada intensa', 71: 'Nieve leve',
+        73: 'Nieve moderada', 75: 'Nieve fuerte', 77: 'Granulos de nieve', 80: 'Chaparrones leves',
+        81: 'Chaparrones', 82: 'Chaparrones fuertes', 85: 'Nevadas leves', 86: 'Nevadas fuertes',
+        95: 'Tormenta electrica', 96: 'Tormenta con granizo', 99: 'Tormenta fuerte con granizo'
+    };
+    const iconoSvg = (nombre) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-${nombre}" focusable="false" aria-hidden="true">${iconos[nombre]}</svg>`;
+    const actualizarApertura = (abierto) => {
+        wrapper.classList.toggle('abierto', abierto);
+        boton.setAttribute('aria-expanded', String(abierto));
+        panel.setAttribute('aria-hidden', String(!abierto));
+    };
+
+    boton.addEventListener('click', () => actualizarApertura(boton.getAttribute('aria-expanded') !== 'true'));
+    cerrar?.addEventListener('click', () => actualizarApertura(false));
+    document.addEventListener('pointerdown', (evento) => {
+        if (!wrapper.contains(evento.target)) actualizarApertura(false);
+    });
+    document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape') actualizarApertura(false);
+    });
+
     async function cargarClimaElCarril() {
         try {
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=America/Argentina/Salta`;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day&timezone=America/Argentina/Salta`;
             const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-            const temp = Math.round(data.current.temperature_2m);
-            const humedad = data.current.relative_humidity_2m;
-            const viento = Math.round(data.current.wind_speed_10m);
-            const codigo = data.current.weather_code;
-            const estado = estadosClima[codigo] || { desc: "Variado", icono: "🌤️" };
-            document.getElementById('carril-temp').textContent = `${temp}°C`;
-            document.getElementById('carril-estado').textContent = estado.desc;
-            document.getElementById('carril-icono').textContent = estado.icono;
-            document.getElementById('carril-humedad').textContent = `${humedad}%`;
-            document.getElementById('carril-viento').textContent = `${viento} km/h`;
-        } catch (err) {
-            document.getElementById('carril-estado').textContent = "No disponible";
+            const actual = data.current;
+            const temp = Math.round(actual.temperature_2m);
+            const humedad = actual.relative_humidity_2m;
+            const viento = Math.round(actual.wind_speed_10m);
+            const codigo = actual.weather_code;
+            const llueve = (codigo >= 51 && codigo <= 67) || (codigo >= 80 && codigo <= 82) || (codigo >= 95 && codigo <= 99);
+            const estaNublado = [2, 3, 45, 48].includes(codigo);
+            const tipoIcono = actual.is_day === 0 ? 'noche' : llueve ? 'lluvia' : estaNublado ? 'nublado' : 'soleado';
+            const estado = estadosClima[codigo] || 'Condiciones variables';
+
+            icono.innerHTML = iconoSvg(tipoIcono);
+            if (salida.temp) salida.temp.textContent = `${temp}\u00B0C`;
+            if (salida.estado) salida.estado.textContent = estado;
+            if (salida.humedad) salida.humedad.textContent = `${humedad}%`;
+            if (salida.viento) salida.viento.textContent = `${viento} km/h`;
+            boton.setAttribute('aria-label', `Clima actual: ${estado}, ${temp} grados. Abrir o cerrar informacion.`);
+            boton.title = `Clima: ${estado}, ${temp}\u00B0C`;
+        } catch (error) {
+            if (salida.estado) salida.estado.textContent = 'No disponible';
+            boton.setAttribute('aria-label', 'Clima de El Carril no disponible. Abrir informacion.');
         }
     }
+
     cargarClimaElCarril();
-    // Se actualiza automáticamente cada 15 minutos sin recargar la página
     setInterval(cargarClimaElCarril, 15 * 60 * 1000);
 })();
 // ====================================================
@@ -1143,6 +1248,12 @@ function abrirCurso(indice) {
     document.getElementById('modal-curso-descripcion').innerHTML =
         formatearDescripcionNoticia(curso.descripcion_curso || '');
 
+    const ubicacionCurso = curso.ubicacion_curso || '';
+    const ubicacionCursoWrap = document.getElementById('modal-curso-ubicacion');
+    const ubicacionCursoEl = document.getElementById('modal-curso-ubicacion-texto');
+    if (ubicacionCursoEl) ubicacionCursoEl.textContent = ubicacionCurso;
+    if (ubicacionCursoWrap) ubicacionCursoWrap.hidden = !ubicacionCurso;
+
     // Imagen principal + fotos extra
     const imagenes = imagenesDeCurso(curso);
     mostrarFotoCurso(imagenes[0], nombre);
@@ -1191,33 +1302,7 @@ function navegarCurso(dir) {
 async function compartirCurso() {
     const curso = listaCursos[indiceCursoModal];
     if (!curso) return;
-
-    const shareUrl = window.location.href;
-    const shareTitle = `${curso.nombre_curso} — Municipalidad de El Carril`;
-    const btn = document.getElementById('curso-btn-compartir');
-    const txt = document.getElementById('curso-compartir-texto');
-
-    if (navigator.share && navigator.canShare && navigator.canShare({ title: shareTitle, url: shareUrl })) {
-        try {
-            await navigator.share({ title: shareTitle, text: curso.nombre_curso, url: shareUrl });
-            return;
-        } catch (err) {
-            if (err.name === 'AbortError') return;
-        }
-    }
-
-    try {
-        await navigator.clipboard.writeText(shareUrl);
-        const original = txt.textContent;
-        btn.classList.add('copiado');
-        txt.textContent = '¡Copiado!';
-        setTimeout(() => {
-            btn.classList.remove('copiado');
-            txt.textContent = original;
-        }, 2000);
-    } catch (err) {
-        console.warn('No se pudo copiar al portapapeles:', err);
-    }
+    abrirModalCompartir(`${curso.nombre_curso} — Municipalidad de El Carril`, curso.nombre_curso);
 }
 
 if (modalCurso) {
@@ -1264,3 +1349,59 @@ async function revisarHashUrlCurso() {
 }
 revisarHashUrlCurso();
 
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    if (!body) return;
+
+    let toggle = document.getElementById('boton-tema');
+    let label = document.getElementById('tema-etiqueta');
+
+    if (!toggle) {
+        const headerContainer = document.querySelector('.header-container');
+        if (!headerContainer) return;
+
+        const headerRight = document.createElement('div');
+        headerRight.className = 'header-right';
+        headerRight.innerHTML = `
+            <button type="button" class="boton-tema" id="boton-tema"
+                aria-label="Activar tema oscuro" aria-pressed="false">
+                <span aria-hidden="true">◐</span>
+                <span id="tema-etiqueta">Modo oscuro</span>
+            </button>`;
+        headerContainer.appendChild(headerRight);
+        toggle = headerRight.querySelector('#boton-tema');
+        label = headerRight.querySelector('#tema-etiqueta');
+    }
+
+    const storageKey = 'muni-tema';
+    const aplicarTema = (oscuro) => {
+        body.classList.toggle('tema-oscuro', oscuro);
+        toggle.setAttribute('aria-pressed', String(oscuro));
+        toggle.setAttribute('aria-label', oscuro ? 'Activar tema claro' : 'Activar tema oscuro');
+        if (label) label.textContent = oscuro ? 'Modo claro' : 'Modo oscuro';
+    };
+
+    try {
+        const temaGuardado = localStorage.getItem(storageKey) || localStorage.getItem('muni-tema-inicio');
+        aplicarTema(temaGuardado === 'oscuro');
+    } catch {
+        aplicarTema(false);
+    }
+
+    toggle.addEventListener('click', () => {
+        const oscuro = !body.classList.contains('tema-oscuro');
+        aplicarTema(oscuro);
+        try {
+            localStorage.setItem(storageKey, oscuro ? 'oscuro' : 'claro');
+            localStorage.setItem('muni-tema-inicio', oscuro ? 'oscuro' : 'claro');
+        } catch {
+            // El cambio de tema sigue funcionando aunque el almacenamiento esté deshabilitado.
+        }
+    });
+
+    window.addEventListener('storage', (evento) => {
+        if (evento.key === storageKey || evento.key === 'muni-tema-inicio') {
+            aplicarTema(evento.newValue === 'oscuro');
+        }
+    });
+});

@@ -6,14 +6,519 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Municipalidad de El Carril — Sitio Oficial</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="Servicios Municipales/servicios.css">
   <script src="script.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
+  <style id="inicio-tema-verde">
+    /* Acentos verdes de la portada */
+    .pagina-inicio {
+      --verde-principal: #087f5b;
+      --verde-profundo: #064e3b;
+      --verde-brillante: #22c55e;
+      --verde-suave: #ecfdf5;
+      --verde-borde: #bbf7d0;
+      background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 42%, #f0fdf4 100%);
+    }
+
+    .pagina-inicio .header {
+      background: linear-gradient(135deg, var(--verde-profundo), #0b6b4d 58%, var(--verde-principal));
+      border-bottom: 3px solid var(--verde-brillante);
+      box-shadow: 0 8px 24px rgba(6, 78, 59, .24);
+    }
+
+    .pagina-inicio #logo1 {
+      background: rgba(236, 253, 245, .16);
+      border: 1px solid rgba(255, 255, 255, .2);
+    }
+
+    .pagina-inicio .navbar {
+      border-bottom-color: var(--verde-borde);
+      box-shadow: 0 4px 16px rgba(6, 78, 59, .08);
+    }
+
+    .pagina-inicio .nav-link:hover,
+    .pagina-inicio .navbar a:hover {
+      color: var(--verde-principal);
+      background: var(--verde-suave);
+    }
+
+    .pagina-inicio .nav-link.active {
+      color: var(--verde-principal);
+      border-bottom-color: var(--verde-brillante);
+      background: linear-gradient(180deg, transparent, var(--verde-suave));
+    }
+
+    .pagina-inicio .parallax-overlay {
+      background: linear-gradient(180deg, rgba(6, 78, 59, .38), rgba(6, 78, 59, .12) 48%, rgba(6, 78, 59, .58));
+    }
+
+    .pagina-inicio .section-tag,
+    .pagina-inicio .noticia-badge {
+      color: var(--verde-principal);
+      background: var(--verde-suave);
+      border: 1px solid var(--verde-borde);
+      border-radius: 999px;
+    }
+
+    .pagina-inicio .tag-dot,
+    .pagina-inicio .pulse-dot {
+      background: var(--verde-brillante);
+    }
+
+    .pagina-inicio .noticias-section {
+      margin-top: -58px;
+    }
+
+    .pagina-inicio .carrusel-container,
+    .pagina-inicio .servicios-wrapper {
+      border: 1px solid var(--verde-borde);
+      box-shadow: 0 14px 32px rgba(6, 78, 59, .14);
+    }
+
+    .pagina-inicio .carrusel-container::before,
+    .pagina-inicio .servicios-wrapper::before {
+      content: '';
+      display: block;
+      width: 64px;
+      height: 4px;
+      margin: -28px 0 22px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--verde-principal), var(--verde-brillante));
+    }
+
+    .pagina-inicio .Servicios a {
+      background: linear-gradient(145deg, #fff, var(--verde-suave));
+      border-color: var(--verde-borde);
+    }
+
+    .pagina-inicio .Servicios a:hover {
+      border-color: var(--verde-principal);
+      box-shadow: 0 10px 24px rgba(8, 127, 91, .18);
+    }
+
+    .pagina-inicio .servicio-icon-box {
+      background: linear-gradient(135deg, #d1fae5, #bbf7d0);
+      color: var(--verde-principal);
+    }
+
+    .pagina-inicio .Servicios a:hover .servicio-icon-box,
+    .pagina-inicio .tarjeta-grande::before {
+      background: linear-gradient(135deg, var(--verde-profundo), var(--verde-brillante));
+    }
+
+    .pagina-inicio .btn-prev:hover,
+    .pagina-inicio .btn-next:hover,
+    .pagina-inicio .ms-wsp:hover {
+      background: var(--verde-principal);
+      border-color: var(--verde-principal);
+      color: #fff;
+    }
+
+    .pagina-inicio .footer {
+      background: linear-gradient(135deg, var(--verde-profundo), #073b2d 70%, #0b6b4d);
+      border-top: 4px solid var(--verde-brillante);
+    }
+
+    /* Modo oscuro aplicado a todas las superficies y secciones del índice */
+    .pagina-inicio.tema-oscuro {
+      --inicio-fondo: #061c16;
+      --inicio-superficie: #0d2b22;
+      --inicio-superficie-2: #123b2f;
+      --inicio-texto: #ecfdf5;
+      --inicio-texto-suave: #b7d8ca;
+      --inicio-verde: #6ee7a5;
+      --inicio-borde: rgba(110, 231, 165, .24);
+      background: radial-gradient(ellipse at 10% 12%, rgba(22, 101, 52, .28), transparent 36%), radial-gradient(ellipse at 90% 58%, rgba(8, 127, 91, .2), transparent 34%), var(--inicio-fondo);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .header {
+      background: linear-gradient(115deg, #03261c, #075b43 62%, #087f5b);
+      border-bottom-color: rgba(110, 231, 165, .48);
+    }
+
+    .pagina-inicio.tema-oscuro .navbar {
+      background: rgba(4, 27, 21, .98);
+      border-bottom-color: rgba(110, 231, 165, .28);
+    }
+
+    .pagina-inicio.tema-oscuro .navbar a,
+    .pagina-inicio.tema-oscuro .navbar .nav-link {
+      color: #d9f5e7;
+    }
+
+    .pagina-inicio.tema-oscuro .navbar a:hover,
+    .pagina-inicio.tema-oscuro .navbar .nav-link:hover,
+    .pagina-inicio.tema-oscuro .navbar a.active,
+    .pagina-inicio.tema-oscuro .navbar .nav-link.active {
+      color: var(--inicio-verde);
+      background: rgba(110, 231, 165, .1);
+      border-bottom-color: var(--inicio-verde);
+    }
+
+    .pagina-inicio.tema-oscuro .section-title,
+    .pagina-inicio.tema-oscuro .Servicios li,
+    .pagina-inicio.tema-oscuro .modal-noticia-titulo,
+    .pagina-inicio.tema-oscuro .modal-cursos-titulo,
+    .pagina-inicio.tema-oscuro .modal-salud h2,
+    .pagina-inicio.tema-oscuro .modal-salud h3 {
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .section-desc,
+    .pagina-inicio.tema-oscuro .servicio-desc-text,
+    .pagina-inicio.tema-oscuro .modal-noticia-descripcion,
+    .pagina-inicio.tema-oscuro .modal-meta-item,
+    .pagina-inicio.tema-oscuro .health-name,
+    .pagina-inicio.tema-oscuro .health-info,
+    .pagina-inicio.tema-oscuro .health-info li {
+      color: var(--inicio-texto-suave);
+    }
+
+    .pagina-inicio.tema-oscuro .section-tag,
+    .pagina-inicio.tema-oscuro .noticia-badge {
+      color: var(--inicio-verde);
+      background: rgba(110, 231, 165, .1);
+      border-color: var(--inicio-borde);
+    }
+
+    .pagina-inicio.tema-oscuro .carrusel-container,
+    .pagina-inicio.tema-oscuro .servicios-wrapper,
+    .pagina-inicio.tema-oscuro .contenedor,
+    .pagina-inicio.tema-oscuro #eventos-seccion {
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .carrusel-container {
+      background: linear-gradient(145deg, rgba(18, 59, 47, .96), rgba(9, 39, 30, .98));
+      border-color: var(--inicio-borde);
+    }
+
+    .pagina-inicio.tema-oscuro .servicios-wrapper {
+      background: rgba(13, 43, 34, .94);
+      border-color: var(--inicio-borde);
+    }
+
+    .pagina-inicio.tema-oscuro .Servicios a,
+    .pagina-inicio.tema-oscuro .health-card,
+    .pagina-inicio.tema-oscuro .ms-section-header {
+      background: linear-gradient(145deg, #123b2f, #0a271e);
+      border-color: var(--inicio-borde);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .Servicios a:hover {
+      background: linear-gradient(145deg, #19533f, #0d3427);
+      border-color: var(--inicio-verde);
+    }
+
+    .pagina-inicio.tema-oscuro .servicio-icon-box {
+      background: rgba(110, 231, 165, .14);
+      color: var(--inicio-verde);
+    }
+
+    .pagina-inicio.tema-oscuro .btn-prev,
+    .pagina-inicio.tema-oscuro .btn-next,
+    .pagina-inicio.tema-oscuro .modal-btn-nav,
+    .pagina-inicio.tema-oscuro .modal-btn-accion {
+      background: rgba(110, 231, 165, .08);
+      border-color: var(--inicio-borde);
+      color: var(--inicio-verde);
+    }
+
+    .pagina-inicio.tema-oscuro .btn-prev:hover,
+    .pagina-inicio.tema-oscuro .btn-next:hover,
+    .pagina-inicio.tema-oscuro .modal-btn-nav:hover:not(:disabled),
+    .pagina-inicio.tema-oscuro .modal-btn-accion:hover {
+      background: #087f5b;
+      border-color: var(--inicio-verde);
+      color: #fff;
+    }
+
+    .pagina-inicio.tema-oscuro .modal-noticia-contenedor,
+    .pagina-inicio.tema-oscuro .modal-cursos-contenedor,
+    .pagina-inicio.tema-oscuro .modal-salud .ms-caja {
+      background: linear-gradient(145deg, #123b2f, #081f18);
+      border: 1px solid var(--inicio-borde);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .modal-noticia-footer,
+    .pagina-inicio.tema-oscuro .modal-cursos-encabezado,
+    .pagina-inicio.tema-oscuro .modal-salud .ms-header {
+      background: rgba(5, 29, 22, .92);
+      border-color: var(--inicio-borde);
+    }
+
+    .pagina-inicio.tema-oscuro .clima-flotante .widget-clima-carril {
+      background: var(--inicio-superficie);
+      border-color: var(--inicio-borde);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .footer {
+      background: linear-gradient(120deg, #031b14, #083b2d 68%, #087f5b);
+      border-top-color: rgba(110, 231, 165, .48);
+    }
+
+    @media (max-width: 768px) {
+      .pagina-inicio .noticias-section { margin-top: -34px; }
+      .pagina-inicio .carrusel-container::before,
+      .pagina-inicio .servicios-wrapper::before { margin-top: -18px; }
+    }
+  </style>
+  <style id="restaurar-tonos-azules">
+    /* Restauración de la identidad azul institucional */
+    .pagina-inicio {
+      --verde-principal: #005bbe;
+      --verde-profundo: #082055;
+      --verde-brillante: #71b62a;
+      --verde-suave: #eaf4ff;
+      --verde-borde: #bfdbfe;
+      background: linear-gradient(180deg, #f0f4f8 0%, #f8fafc 42%, #f0f4f8 100%);
+    }
+
+    .pagina-inicio .header {
+      background: linear-gradient(135deg, #005bbe, #082055);
+      border-bottom: 0;
+      box-shadow: var(--sombra-lg);
+    }
+
+    .pagina-inicio #logo1 {
+      background: rgba(255, 255, 255, .12);
+      border: 0;
+    }
+
+    .pagina-inicio .navbar {
+      border-bottom-color: #e8ecf1;
+      box-shadow: var(--sombra-sm);
+    }
+
+    .pagina-inicio .nav-link:hover,
+    .pagina-inicio .navbar a:hover {
+      color: #005bbe;
+      background: rgba(0, 91, 190, .04);
+    }
+
+    .pagina-inicio .nav-link.active {
+      color: #005bbe;
+      border-bottom-color: #005bbe;
+      background: transparent;
+    }
+
+    .pagina-inicio .parallax-overlay {
+      background: linear-gradient(180deg, rgba(8, 32, 85, .28), rgba(8, 32, 85, .12) 50%, rgba(8, 32, 85, .28));
+    }
+
+    .pagina-inicio .section-tag,
+    .pagina-inicio .noticia-badge {
+      color: #005bbe;
+      background: rgba(0, 91, 190, .08);
+      border-color: rgba(0, 91, 190, .15);
+    }
+
+    .pagina-inicio .carrusel-container,
+    .pagina-inicio .servicios-wrapper {
+      border-color: rgba(255, 255, 255, .8);
+      box-shadow: var(--sombra-md);
+    }
+
+    .pagina-inicio .carrusel-container::before,
+    .pagina-inicio .servicios-wrapper::before {
+      background: linear-gradient(90deg, #005bbe, #71b62a);
+    }
+
+    .pagina-inicio .Servicios a {
+      background: var(--gris-bg);
+      border-color: var(--gris-claro);
+    }
+
+    .pagina-inicio .Servicios a:hover {
+      border-color: #005bbe;
+      box-shadow: var(--sombra-md);
+    }
+
+    .pagina-inicio .servicio-icon-box {
+      background: linear-gradient(135deg, rgba(0, 91, 190, .1), rgba(113, 182, 42, .1));
+      color: #005bbe;
+    }
+
+    .pagina-inicio .Servicios a:hover .servicio-icon-box,
+    .pagina-inicio .tarjeta-grande::before {
+      background: linear-gradient(135deg, #005bbe, #71b62a);
+    }
+
+    .pagina-inicio .footer {
+      background: linear-gradient(135deg, #005bbe, #082055);
+      border-top: 0;
+    }
+
+    /* Modo oscuro azul para todas las secciones */
+    .pagina-inicio.tema-oscuro {
+      --inicio-fondo: #07172f;
+      --inicio-superficie: #10284a;
+      --inicio-superficie-2: #16365e;
+      --inicio-texto: #eef4fc;
+      --inicio-texto-suave: #b9cbe0;
+      --inicio-verde: #a5df69;
+      --inicio-borde: rgba(166, 196, 224, .18);
+      background: radial-gradient(ellipse at 12% 18%, rgba(17, 91, 151, .24), transparent 38%), radial-gradient(ellipse at 90% 56%, rgba(28, 112, 72, .16), transparent 34%), var(--inicio-fondo);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .header {
+      background: linear-gradient(112deg, #082653, #0758a5 58%, #176b4b);
+      border-bottom: 1px solid rgba(164, 218, 176, .38);
+    }
+
+    .pagina-inicio.tema-oscuro .navbar {
+      background: rgba(7, 23, 47, .97);
+      border-bottom-color: rgba(133, 195, 65, .3);
+    }
+
+    .pagina-inicio.tema-oscuro .navbar a,
+    .pagina-inicio.tema-oscuro .navbar .nav-link {
+      color: #e7effa;
+    }
+
+    .pagina-inicio.tema-oscuro .navbar a:hover,
+    .pagina-inicio.tema-oscuro .navbar .nav-link:hover,
+    .pagina-inicio.tema-oscuro .navbar a.active,
+    .pagina-inicio.tema-oscuro .navbar .nav-link.active {
+      color: #a5df69;
+      background: rgba(165, 223, 105, .08);
+      border-bottom-color: #a5df69;
+    }
+
+    .pagina-inicio.tema-oscuro .section-title,
+    .pagina-inicio.tema-oscuro .Servicios li,
+    .pagina-inicio.tema-oscuro .modal-noticia-titulo,
+    .pagina-inicio.tema-oscuro .modal-cursos-titulo,
+    .pagina-inicio.tema-oscuro .modal-salud h2,
+    .pagina-inicio.tema-oscuro .modal-salud h3 {
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .section-desc,
+    .pagina-inicio.tema-oscuro .servicio-desc-text,
+    .pagina-inicio.tema-oscuro .modal-noticia-descripcion,
+    .pagina-inicio.tema-oscuro .modal-meta-item,
+    .pagina-inicio.tema-oscuro .health-name,
+    .pagina-inicio.tema-oscuro .health-info,
+    .pagina-inicio.tema-oscuro .health-info li {
+      color: var(--inicio-texto-suave);
+    }
+
+    .pagina-inicio.tema-oscuro .section-tag,
+    .pagina-inicio.tema-oscuro .noticia-badge {
+      color: #a5df69;
+      background: rgba(0, 91, 190, .18);
+      border-color: rgba(166, 196, 224, .22);
+    }
+
+    .pagina-inicio.tema-oscuro .carrusel-container {
+      background: linear-gradient(145deg, #10284a, #0b1d39);
+      border-color: var(--inicio-borde);
+    }
+
+    .pagina-inicio.tema-oscuro .servicios-wrapper,
+    .pagina-inicio.tema-oscuro .Servicios a,
+    .pagina-inicio.tema-oscuro .health-card,
+    .pagina-inicio.tema-oscuro .ms-section-header {
+      background: linear-gradient(145deg, #10284a, #0b1d39);
+      border-color: var(--inicio-borde);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .servicio-icon-box {
+      background: rgba(0, 91, 190, .2);
+      color: #8bc7ff;
+    }
+
+    .pagina-inicio.tema-oscuro .btn-prev,
+    .pagina-inicio.tema-oscuro .btn-next,
+    .pagina-inicio.tema-oscuro .modal-btn-nav,
+    .pagina-inicio.tema-oscuro .modal-btn-accion {
+      background: rgba(0, 91, 190, .16);
+      border-color: var(--inicio-borde);
+      color: #a8d5ff;
+    }
+
+    .pagina-inicio.tema-oscuro .btn-prev:hover,
+    .pagina-inicio.tema-oscuro .btn-next:hover,
+    .pagina-inicio.tema-oscuro .modal-btn-nav:hover:not(:disabled),
+    .pagina-inicio.tema-oscuro .modal-btn-accion:hover {
+      background: #005bbe;
+      border-color: #8bc7ff;
+      color: #fff;
+    }
+
+    .pagina-inicio.tema-oscuro .modal-noticia-contenedor,
+    .pagina-inicio.tema-oscuro .modal-cursos-contenedor,
+    .pagina-inicio.tema-oscuro .modal-salud .ms-caja {
+      background: linear-gradient(145deg, #10284a, #081a32);
+      border-color: var(--inicio-borde);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .modal-noticia-footer,
+    .pagina-inicio.tema-oscuro .modal-cursos-encabezado,
+    .pagina-inicio.tema-oscuro .modal-salud .ms-header {
+      background: rgba(7, 23, 47, .92);
+      border-color: var(--inicio-borde);
+    }
+
+    .pagina-inicio.tema-oscuro .clima-flotante .widget-clima-carril {
+      background: #10284a;
+      border-color: var(--inicio-borde);
+      color: var(--inicio-texto);
+    }
+
+    .pagina-inicio.tema-oscuro .footer {
+      background: linear-gradient(120deg, #07172f, #0a2c4c 68%, #124c3c);
+      border-top-color: rgba(131, 195, 65, .42);
+    }
+  </style>
+  <style id="contraste-texto-oscuro">
+    .pagina-inicio.tema-oscuro h1,
+    .pagina-inicio.tema-oscuro h2,
+    .pagina-inicio.tema-oscuro h3,
+    .pagina-inicio.tema-oscuro h4,
+    .pagina-inicio.tema-oscuro p,
+    .pagina-inicio.tema-oscuro li,
+    .pagina-inicio.tema-oscuro label,
+    .pagina-inicio.tema-oscuro .section-title,
+    .pagina-inicio.tema-oscuro .health-name,
+    .pagina-inicio.tema-oscuro .health-info,
+    .pagina-inicio.tema-oscuro .health-info li {
+      color: #eef4fc;
+    }
+
+    .pagina-inicio.tema-oscuro .section-desc,
+    .pagina-inicio.tema-oscuro .servicio-desc-text,
+    .pagina-inicio.tema-oscuro .modal-noticia-descripcion,
+    .pagina-inicio.tema-oscuro .modal-meta-item,
+    .pagina-inicio.tema-oscuro .clima-provincia,
+    .pagina-inicio.tema-oscuro .clima-detalles {
+      color: #c5d6e8;
+    }
+
+    .pagina-inicio.tema-oscuro .modal-noticia-descripcion a,
+    .pagina-inicio.tema-oscuro .health-info a {
+      color: #9ed0ff;
+    }
+
+    .pagina-inicio.tema-oscuro .modal-noticia-descripcion a:hover,
+    .pagina-inicio.tema-oscuro .health-info a:hover {
+      color: #d7ecff;
+    }
+  </style>
 </head>
 
-<body>
+<body class="pagina-inicio">
 
   <!-- ========== HEADER PRINCIPAL ========== -->
   <header class="header">
@@ -27,6 +532,13 @@
           <p class="subtitulo-header">Gestión Municipal &bull; Salta, Argentina</p>
         </div>
       </div>
+      <div class="header-right">
+        <button type="button" class="boton-tema" id="boton-tema" aria-label="Activar tema oscuro" aria-pressed="false">
+          <svg class="tema-icono tema-icono-sol" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg>
+          <svg class="tema-icono tema-icono-luna" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/></svg>
+          <span id="tema-etiqueta">Modo oscuro</span>
+        </button>
+      </div>
       <!--<div class="header-right">
         <a href="admin2.html" class="btn-header-admin" title="Acceso al Panel de Administración">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -38,23 +550,30 @@
       </div>-->
     </div>
   </header>
-  <!-- ================= WIDGET CLIMA: EL CARRIL ================= -->
-  <div class="widget-clima-carril" id="widget-clima-carril">
-    <div class="clima-top">
-      <div>
-        <div class="clima-lugar">El Carril</div>
-        <div class="clima-provincia">Salta, Argentina</div>
+  <!-- Boton flotante del clima -->
+  <div class="clima-flotante" id="clima-flotante">
+    <button type="button" class="clima-boton" id="clima-toggle" aria-expanded="false" aria-controls="widget-clima-carril" aria-label="Clima actual de El Carril. Ver detalles">
+      <span class="clima-boton-icono" id="carril-icono" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-cloud"><path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/></svg>
+      </span>
+      <span class="clima-boton-tooltip" aria-hidden="true">Clima</span>
+    </button>
+    <div class="widget-clima-carril" id="widget-clima-carril" role="region" aria-label="Informacion actual del clima" aria-hidden="true">
+      <div class="clima-panel-header">
+        <div>
+          <div class="clima-lugar">El Carril</div>
+          <div class="clima-provincia">Salta, Argentina</div>
+        </div>
+        <button type="button" class="clima-cerrar" id="clima-cerrar" aria-label="Cerrar informacion del clima">&times;</button>
       </div>
-      <div class="clima-icono" id="carril-icono">⏳</div>
-    </div>
-
-    <div class="clima-cuerpo">
-      <div class="clima-temp" id="carril-temp">--°</div>
-      <div class="clima-estado" id="carril-estado">Cargando...</div>
-    </div>
-    <div class="clima-detalles">
-      <span>💧 <span id="carril-humedad">--%</span> hum.</span>
-      <span>💨 <span id="carril-viento">-- km/h</span></span>
+      <div class="clima-cuerpo">
+        <div class="clima-temp" id="carril-temp">--&#176;</div>
+        <div class="clima-estado" id="carril-estado">Cargando...</div>
+      </div>
+      <div class="clima-detalles">
+        <span>Humedad <strong id="carril-humedad">--%</strong></span>
+        <span>Viento <strong id="carril-viento">-- km/h</strong></span>
+      </div>
     </div>
   </div>
   <!-- ========== BARRA DE NAVEGACIÓN ========== -->
@@ -68,7 +587,7 @@
           </svg>
           Inicio
         </a>
-        <a href="#noticias" class="nav-link">
+        <a href="noticias.html" class="nav-link">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path
               d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.559V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z" />
@@ -84,7 +603,7 @@
           </svg>
           Servicios
         </a>
-        <a href="#eventos-seccion" class="nav-link">
+        <a href="eventos.html" class="nav-link">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path
               d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
@@ -93,9 +612,25 @@
           </svg>
           Eventos
         </a>
-        <a href="#" class="nav-link">Turismo</a>
+        <a href="#" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M1 13.5 5.8 7l2.2 2.5L11.5 4l3.5 9.5z" />
+            <path d="M0 14.5h16v1H0z" />
+          </svg>
+          Turismo
+        </a>
+        <a href="gobierno.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z" />
+          </svg>
+          Gobierno
+        </a>
         <div class="dropdown" id="dropdown-instituciones">
           <a href="javascript:void(0)" class="nav-link dropbtn" aria-haspopup="true" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M1 15h14v-1H1zm1-2h2V6H2zm3 0h2V6H5zm4 0h2V6H9zm3 0h2V6h-2zM1 5h14L8 1z" />
+            </svg>
             Instituciones
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -296,7 +831,7 @@
       </div>
 
       <ul class="Servicios">
-        <a href="https://youtu.be/tZ477ASNs9o" target="_blank" rel="noopener">
+        <a href="#modal-registro" data-abrir-modal="modal-registro" aria-haspopup="dialog">
           <div class="servicio-icon-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -313,7 +848,7 @@
             </svg>
           </span>
         </a>
-        <a href="#">
+        <a href="#modal-impuestos" data-abrir-modal="modal-impuestos" aria-haspopup="dialog">
           <div class="servicio-icon-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path
@@ -331,7 +866,7 @@
             </svg>
           </span>
         </a>
-        <a href="#">
+        <a href="#modal-salud" data-abrir-modal="modal-salud" aria-haspopup="dialog">
           <div class="servicio-icon-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -351,7 +886,7 @@
             </svg>
           </span>
         </a>
-        <a href="#">
+        <a href="#modal-licencias" data-abrir-modal="modal-licencias" aria-haspopup="dialog">
           <div class="servicio-icon-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path
@@ -466,6 +1001,12 @@
                 </svg>
                 <time id="modal-evento-fecha"></time>
               </div>
+              <div class="modal-meta-item modal-meta-ubicacion" id="modal-evento-ubicacion" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M8 16s6-5.686 6-10A6 6 0 1 0 2 6c0 4.314 6 10 6 10zm0-7.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
+                </svg>
+                <span id="modal-evento-ubicacion-texto"></span>
+              </div>
               <span class="modal-meta-tag modal-meta-tag-evento">Agenda El Carril</span>
             </div>
 
@@ -498,6 +1039,13 @@
             </button>
           </div>
           <div class="modal-acciones-grupo">
+            <button type="button" id="modal-evento-btn-compartir" class="modal-btn-accion modal-btn-compartir"
+              title="Compartir o copiar enlace">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M13.5 1a1.5 1.5 0 1 0 1.415 2h.085v3h-1V3.914a1.5 1.5 0 0 0-.5-2.914zM2.5 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M3.79 8.04l8.44 3.52-.39.92-8.44-3.52zM3.79 7.96l-.39-.92 8.44-3.52.39.92z" />
+              </svg>
+              Compartir
+            </button>
             <button type="button" id="modal-evento-btn-cerrar" class="modal-btn-accion modal-btn-cerrar-footer">
               Cerrar
             </button>
@@ -618,6 +1166,12 @@
               </svg>
               <span>Inicio: <time id="modal-curso-inicio"></time></span>
             </div>
+            <div class="modal-meta-item modal-meta-ubicacion" id="modal-curso-ubicacion" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 16s6-5.686 6-10A6 6 0 1 0 2 6c0 4.314 6 10 6 10zm0-7.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
+              </svg>
+              <span id="modal-curso-ubicacion-texto"></span>
+            </div>
             <div class="modal-meta-item modal-meta-lectura">
               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16"
                 aria-hidden="true">
@@ -716,6 +1270,557 @@
     </div>
   </footer>
 
+ <!-- ========== POP-UP: SALUD Y FARMACIAS ========== -->
+  <div class="modal-salud" id="modal-salud" role="dialog" aria-modal="true" aria-labelledby="modal-salud-titulo" aria-hidden="true">
+    <div class="ms-fondo" data-cerrar-modal></div>
+
+    <div class="ms-caja">
+      <div class="ms-header">
+        <div class="ms-logo">
+          <span class="ms-logo-icon" aria-hidden="true">➕</span>
+          <h2 id="modal-salud-titulo">Salud y Farmacias</h2>
+        </div>
+        <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <div class="ms-cuerpo">
+
+        <div class="ms-section-header">
+          <div class="ms-section-icon">➕</div>
+          <h3 class="ms-titulo">Salud</h3>
+        </div>
+
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="accordion-salud" class="accordion-toggle" checked>
+          <label for="accordion-salud" class="accordion-label">
+            <span class="arrow">➜</span>
+            ATENCIÓN SANITARIA
+          </label>
+          <div class="accordion-content">
+
+            <div class="health-card">
+              <div class="health-name">Hospital San Rafael:</div>
+              <ul class="health-info">
+                <li>San Rafael 455, El Carril, SALTA.</li>
+                <li><strong>Tel:</strong> 387 490-8036</li>
+              </ul>
+            </div>
+
+            <div class="health-card">
+              <div class="health-name">Centro de Salud "Más salud":</div>
+              <ul class="health-info">
+                <li>San Rafael 155, A4421 El Carril, Salta.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="accordion-farmacias" class="accordion-toggle" checked>
+          <label for="accordion-farmacias" class="accordion-label">
+            <span class="arrow">➜</span>
+            FARMACIAS
+          </label>
+          <div class="accordion-content">
+
+            <div class="pharmacy-grid">
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia Familiar</div>
+                <div class="pharmacy-address">20 de Febrero N. , El Carril-Salta</div>
+                <div class="pharmacy-phone">📞 387 490-XXXX</div>
+                <span class="pharmacy-hours">Lun a Vie 8:00 - 20:00</span>
+              </div>
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia Virgen de las Mercedes</div>
+                <div class="pharmacy-address">Luis D'andrea s/n entre Pellegrini y 1 de Mayo, El Carril, Salta</div>
+                <div class="pharmacy-phone">📞 387 455-8616</div>
+                <span class="pharmacy-hours">Lun a Vie 09:00 - 13:00, 18:00 - 21:30</span>
+              </div>
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia Valuga</div>
+                <div class="pharmacy-address">Belgrano s/n entre San Rafael y Juan Carlos Davalos, El Carril, Salta</div>
+                <div class="pharmacy-phone">📞 387 490-8393</div>
+                <span class="pharmacy-hours">Lun a sab 08:00 - 13:30, 18:00 - 22:00 hs</span>
+              </div>
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia San Jorge</div>
+                <div class="pharmacy-address">25 de Mayo, El Carril, Salta</div>
+                <div class="pharmacy-phone">📞 387 490-8933</div>
+                <span class="pharmacy-hours">Lun a Vie 09:00 - 13:00, 18:00 - 21:30 hs</span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== POP-UP: LICENCIAS ========== -->
+  <div class="modal-salud modal-lic" id="modal-licencias" role="dialog" aria-modal="true" aria-labelledby="modal-lic-titulo" aria-hidden="true">
+    <div class="ms-fondo" data-cerrar-modal></div>
+
+    <div class="ms-caja">
+      <div class="ms-header">
+        <div class="ms-logo">
+          <span class="ms-logo-icon" aria-hidden="true"><svg class="ic" width="24" height="24" style="color:#0a4fa8"><use href="#i-license" /></svg></span>
+          <h2 id="modal-lic-titulo">Licencias</h2>
+        </div>
+        <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <div class="ms-cuerpo">
+
+        <div class="ms-section-header">
+          <div class="ms-section-icon"><svg class="ic" width="26" height="26"><use href="#i-license" /></svg></div>
+          <h3 class="ms-titulo">Licencias</h3>
+        </div>
+        <p class="lic-intro">Requisitos para acercarte luego a las oficinas del CCL.</p>
+
+        <!-- 1. PRIMERA VEZ -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-lic-primera" class="accordion-toggle" checked>
+          <label for="acc-lic-primera" class="accordion-label"><span class="arrow">➜</span>PRIMERA VEZ</label>
+          <div class="accordion-content">
+            <div class="pharmacy-grid">
+              <div class="pharmacy-card"><div class="pharmacy-name">Clase B</div><div class="pharmacy-address">Auto / camioneta</div><span class="pharmacy-hours">Particular</span></div>
+              <div class="pharmacy-card"><div class="pharmacy-name">Clase A</div><div class="pharmacy-address">Motocicletas</div><span class="pharmacy-hours">Particular</span></div>
+              <div class="pharmacy-card"><div class="pharmacy-name">Clase G</div><div class="pharmacy-address">Tractores</div><span class="pharmacy-hours">Particular</span></div>
+            </div>
+            <div class="health-card" style="margin-top:1.2rem">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia del DNI (último ejemplar vigente) con domicilio en El Carril.</li>
+                <li>Grupo y factor sanguíneo.</li>
+                <li>Curso online según la categoría que quieras sacar: <a href="https://curso.seguridadvial.gob.ar" target="_blank" rel="noopener">curso.seguridadvial.gob.ar</a></li>
+                <li>Hacer el curso de estrellas amarillas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. MENORES -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-lic-menores" class="accordion-toggle">
+          <label for="acc-lic-menores" class="accordion-label"><span class="arrow">➜</span>MENORES DE EDAD (17 AÑOS)</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Autorización</div>
+              <ul class="health-info">
+                <li>Autorización de ambos padres ante Escribano Público o Juez de Paz.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia del DNI (último ejemplar vigente) con domicilio en El Carril.</li>
+                <li>Grupo y factor sanguíneo.</li>
+                <li>Curso online según la categoría que quieras sacar: <a href="https://curso.seguridadvial.gob.ar" target="_blank" rel="noopener">curso.seguridadvial.gob.ar</a></li>
+                <li>Hacer el curso de estrellas amarillas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. RENOVACION -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-lic-renovacion" class="accordion-toggle">
+          <label for="acc-lic-renovacion" class="accordion-label"><span class="arrow">➜</span>RENOVACIÓN</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia del DNI (último ejemplar vigente) con domicilio en El Carril.</li>
+                <li>Fotocopia de la licencia de conducir.</li>
+              </ul>
+            </div>
+            <div class="health-card alerta">
+              <div class="health-name">Importante</div>
+              <ul class="health-info">
+                <li>Tener infracciones por alcoholemia imposibilita realizar cualquier trámite de licencia de conducir hasta que se regularice la situación.</li>
+                <li>Consultá tus infracciones en: <a href="https://consultainfracciones.seguridadvial.gob.ar" target="_blank" rel="noopener">consultainfracciones.seguridadvial.gob.ar</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. CONSULTAS -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-lic-consultas" class="accordion-toggle">
+          <label for="acc-lic-consultas" class="accordion-label"><span class="arrow">➜</span>LICENCIAS PROFESIONALES Y CONSULTAS</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Consultas sobre licencias profesionales u otras consultas</div>
+              <ul class="health-info">
+                <li><strong>Cel:</strong> 387 503-2787 (solo por mensaje)</li>
+                <li><strong>Horario para enviar mensajes:</strong> de 7 a 13 hs.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== POP-UP: REGISTRO CIVIL ========== -->
+  <div class="modal-salud modal-lic" id="modal-registro" role="dialog" aria-modal="true" aria-labelledby="modal-reg-titulo" aria-hidden="true">
+    <div class="ms-fondo" data-cerrar-modal></div>
+
+    <div class="ms-caja">
+      <div class="ms-header">
+        <div class="ms-logo">
+          <span class="ms-logo-icon" aria-hidden="true"><svg class="ic" width="24" height="24" style="color:#0a4fa8"><use href="#i-doc" /></svg></span>
+          <h2 id="modal-reg-titulo">Registro Civil</h2>
+        </div>
+        <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <div class="ms-cuerpo">
+
+        <div class="ms-section-header">
+          <div class="ms-section-icon"><svg class="ic" width="26" height="26"><use href="#i-doc" /></svg></div>
+          <h3 class="ms-titulo">Registro Civil</h3>
+        </div>
+        <p class="lic-intro">Requisitos y trámites que se realizan en nuestra oficina.</p>
+
+        <!-- 1. TRÁMITES DE DNI -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-dni" class="accordion-toggle">
+          <label for="acc-reg-dni" class="accordion-label"><span class="arrow">➜</span>TRÁMITES DE DNI</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">DNI 0 año (recién nacido)</div>
+              <ul class="health-info">
+                <li>Mamá, papá o tutor legal con DNI.</li>
+                <li>El recién nacido debe estar presente.</li>
+                <li>Acta de nacimiento con oblea original.</li>
+                <li>Es totalmente gratuito. Demora aproximada de 90 días; se entrega en el domicilio declarado por correo postal. Si la entrega fracasa, se retira por padre, madre o representante legal con DNI en la oficina generadora del trámite.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Actualización de 5 a 8 años (obligatoria)</div>
+              <ul class="health-info">
+                <li>El menor debe concurrir acompañado por el padre, madre o representante legal (con DNI y guarda legal en caso del representante).</li>
+                <li>DNI anterior, si lo tuviere.</li>
+                <li>Acta de nacimiento del niño/a legalizada y en buenas condiciones (solo se solicita actualización del acta en caso de filiación única o ante alguna rectificación).</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Actualización de 14 años (obligatoria)</div>
+              <ul class="health-info">
+                <li>El interesado debe asistir personalmente con DNI anterior, si lo tuviere.</li>
+                <li>Acta de nacimiento legalizada en buenas condiciones (solo se solicita actualizada si el acta tiene alguna modificación o solo contiene una filiación).</li>
+                <li>Si el ciudadano tiene 21 años o más: debe concurrir con información sumaria de identidad emitida por el Poder Judicial o Juez de Paz.</li>
+                <li>Si tiene entre 18 y 20 años: debe traer además documento de alguno de los padres; si estuviesen fallecidos, acta legalizada de defunción.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Cambio de domicilio</div>
+              <ul class="health-info">
+                <li>Todo cambio de domicilio genera la emisión de un nuevo DNI formato tarjeta con el domicilio actual.</li>
+                <li>Mayores de 14 años: el interesado debe asistir personalmente con sus datos personales.</li>
+                <li>Menores de 14 años: debe asistir acompañado de padre, madre o tutor legal con DNI, y con acta de nacimiento ORIGINAL legalizada por el Registro Civil (no se aceptan certificados ni fotocopias).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. ACTAS ONLINE -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-actas" class="accordion-toggle">
+          <label for="acc-reg-actas" class="accordion-label"><span class="arrow">➜</span>SOLICITAR ACTAS ONLINE</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Paso a paso</div>
+              <ul class="health-info pasos">
+                <li>Ingresá a <a href="https://registrocivilsalta.gob.ar/oficial" target="_blank" rel="noopener">www.registrocivilsalta.gob.ar</a> → <strong>Actas</strong> → <strong>Solicitud de actas online</strong> → <strong>Iniciar solicitud / Registrarte</strong>.</li>
+                <li><strong>Registrarte como usuario</strong> → <strong>Crear nueva cuenta</strong> (creá un usuario y una contraseña para acceder al sistema) → <strong>Crear cuenta</strong>.</li>
+                <li>Te van a mandar un mensaje a tu correo electrónico. Entrá al mensaje e ingresá por el link azul.</li>
+                <li><strong>Actas online – Áreas</strong> → <strong>Continuar</strong> → <strong>Iniciar y gestionar pedido</strong> → <strong>Iniciar pedido</strong>.</li>
+                <li>Elegí la opción: <strong>Nacimiento / Matrimonio / Defunción / Unión convivencial</strong>.</li>
+                <li>Completá los campos con los datos. <strong>Tiene marginal:</strong> significa si la partida tiene alguna modificación. <strong>Destino:</strong> ante quién se requiere.</li>
+                <li><strong>Confirmar</strong> y sacá una captura de pantalla para conservar el número de auditoría.</li>
+                <li><strong>Pagar la partida.</strong> Consultá el precio y las formas de pago en nuestra oficina.</li>
+                <li>Una vez abonado el trámite, el acta llega en 10 días al correo electrónico que aportaste.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">¿Necesitás ayuda?</div>
+              <ul class="health-info">
+                <li>Este trámite se realiza online. Si necesitás ayuda u orientación para hacerlo, acercate a nuestra oficina.</li>
+              </ul>
+            </div>
+            <div class="health-card alerta">
+              <div class="health-name">Reclamos</div>
+              <ul class="health-info">
+                <li>POR RECLAMO ENVIAR MJE AL registrocivil.digitalizacion@gmail.com</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PASAPORTE -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-pasaporte" class="accordion-toggle">
+          <label for="acc-reg-pasaporte" class="accordion-label"><span class="arrow">➜</span>PASAPORTE</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Podés consultar la información para tramitar tu pasaporte</div>
+              <ul class="health-info">
+                <li>Pasaporte Regular → <a href="https://registrocivilsalta.gob.ar/oficial/tramites/dni-pasaporte-2/pasaporte-regular-12" target="_blank" rel="noopener">Consultar requisitos</a></li>
+                <li>Pasaporte Express → <a href="https://registrocivilsalta.gob.ar/oficial/tramites/dni-pasaporte-2/pasaporte-expres-13" target="_blank" rel="noopener">Consultar requisitos</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. RECTIFICACIÓN DE DNI -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-rectificacion" class="accordion-toggle">
+          <label for="acc-reg-rectificacion" class="accordion-label"><span class="arrow">➜</span>RECTIFICACIÓN DE DNI</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">¿Qué es?</div>
+              <ul class="health-info">
+                <li>Consiste en solicitar al Registro Nacional de las Personas la modificación de los datos biográficos del ciudadano, lo que genera la emisión de un nuevo DNI rectificado.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Menores de 14 años: deben ser acompañados por padre, madre o representante legal con DNI.</li>
+                <li>DNI a rectificar.</li>
+                <li>Partida de nacimiento RECTIFICADA (acta de nacimiento con sus modificaciones, debidamente legalizada por el Registro Civil). No se aceptan certificados de nacimiento ni fotocopias.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Aclaraciones</div>
+              <ul class="health-info">
+                <li>La rectificación puede deberse a reconocimiento paterno, adición de apellido materno, adopción plena, identidad de género (Ley 26.743) o corrección de datos identificatorios cuando surjan errores en el acta de nacimiento con posterioridad a la registración.</li>
+                <li>El DNI será remitido en un plazo aproximado de 90 días al domicilio declarado, por correo postal, sin costo adicional. Si la entrega fracasa, será remitido a la oficina donde se originó el trámite.</li>
+                <li>El DNI tendrá validez de 15 años desde su emisión. En menores, hasta la edad de la próxima actualización (5/8 años o 14 años), o antes si se modifica el acta de nacimiento.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. INSCRIPCIONES -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-inscripciones" class="accordion-toggle">
+          <label for="acc-reg-inscripciones" class="accordion-label"><span class="arrow">➜</span>INSCRIPCIÓN DE NACIMIENTOS Y DEFUNCIONES</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Importante</div>
+              <ul class="health-info">
+                <li>Nacimientos: solo se inscriben bebés nacidos en esta localidad.</li>
+                <li>Defunciones: solo se inscriben fallecidos en esta localidad.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. ADICIÓN DE APELLIDO -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-apellido" class="accordion-toggle">
+          <label for="acc-reg-apellido" class="accordion-label"><span class="arrow">➜</span>ADICIÓN DE APELLIDO MATERNO/PATERNO</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Acta de nacimiento original y actualizada del o los inscriptos, y copia del DNI. En caso de defunción, acta de defunción.</li>
+                <li>DNI de la madre o padre de quien se adiciona el apellido (copia y original).</li>
+                <li>Si los progenitores son casados: acta de matrimonio o fotocopia autenticada de la primera página de la libreta de matrimonio.</li>
+                <li>Firma la solicitud:
+                  <br>— si el inscripto es mayor de edad, firma el inscripto;
+                  <br>— si tiene más de 13 años, firma el inscripto (no es necesaria la presencia de los padres);
+                  <br>— si es menor de edad, firman y asisten ambos progenitores.</li>
+                <li>DNI original y fotocopia del solicitante.</li>
+                <li>Estampillas de Rentas (España 625) o IPV (Belgrano). Es válido para uno o más inscriptos que solicitan la adición.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Cómo sigue el trámite</div>
+              <ul class="health-info">
+                <li>El trámite se inicia en el Departamento Jurídico. Una vez realizada la resolución administrativa y la nota marginal en el libro respectivo, termina.</li>
+                <li>La nueva acta debe solicitarse por la página del Registro Civil: <a href="https://registrocivilsalta.gob.ar/oficial" target="_blank" rel="noopener">registrocivilsalta.gob.ar/oficial</a> o telefónicamente al 148.</li>
+                <li>Luego deberá iniciar el trámite de nuevo ejemplar de DNI en el departamento de Identificación.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. MATRIMONIO -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-matrimonio" class="accordion-toggle">
+          <label for="acc-reg-matrimonio" class="accordion-label"><span class="arrow">➜</span>MATRIMONIO</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>DNI y fotocopia de DNI de ambos contrayentes (uno, sí o sí, con domicilio en El Carril).</li>
+                <li>Fotocopia de DNI de dos testigos mayores de 18 años.</li>
+                <li>Partidas de nacimiento originales y actualizadas de ambos contrayentes (no mayor a seis meses). Si son extranjeros, deben estar apostilladas en el país de origen; y si son de países que no hablan castellano, traducidas por traductor oficial registrado en la Ciudad Judicial.</li>
+                <li>Divorciados: acta de matrimonio anterior con marginal de divorcio, original y actualizada (no mayor a seis meses), con apostilla y traducción si corresponde.</li>
+                <li>Viudos: acta de matrimonio anterior, original y actualizada (no mayor a seis meses), y acta de defunción original y actualizada (no mayor a seis meses).</li>
+              </ul>
+            </div>
+            <div class="health-card alerta">
+              <div class="health-name">Importante</div>
+              <ul class="health-info">
+                <li>Solicitar turno con 10 días de anticipación.</li>
+                <li>La documentación debe presentarse con 72 horas de anticipación antes de la celebración.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. UNIÓN CONVIVENCIAL -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-union" class="accordion-toggle">
+          <label for="acc-reg-union" class="accordion-label"><span class="arrow">➜</span>UNIÓN CONVIVENCIAL</label>
+          <div class="accordion-content">
+            <div class="health-card alerta">
+              <div class="health-name">Aviso</div>
+              <ul class="health-info">
+                <li>Este trámite no se realiza en esta oficina. Solo brindamos los requisitos y orientación.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia de DNI de ambos contrayentes, con mismo domicilio.</li>
+                <li>Fotocopia de DNI de dos testigos mayores de 18 años.</li>
+                <li>Partidas de nacimiento originales y actualizadas de ambos (no mayor a seis meses). Extranjeros: apostilladas en el país de origen y traducidas por traductor oficial registrado en la Ciudad Judicial, si corresponde.</li>
+                <li>Divorciados: acta de matrimonio anterior con marginal de divorcio, original y actualizada (no mayor a seis meses), con apostilla y traducción si corresponde.</li>
+                <li>Viudos: acta de matrimonio anterior, original y actualizada (no mayor a seis meses), y acta de defunción original y actualizada (no mayor a seis meses).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. CONTACTO (cuadro fijo, no se despliega) -->
+        <div class="health-card contacto">
+          <div class="health-name">Datos de contacto</div>
+          <ul class="health-info">
+            <li><strong>Dirección:</strong> Gral. Güemes N.º 995 (dentro del edificio municipal), El Carril, Salta.</li>
+            <li><strong>Horario:</strong> lunes a viernes de 7:00 a 12:30 hs.</li>
+            <li><strong>Teléfono:</strong> 4908319</li>
+            <li><strong>Sitio web oficial:</strong> <a href="https://registrocivilsalta.gob.ar/oficial" target="_blank" rel="noopener">registrocivilsalta.gob.ar/oficial</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+ <!-- ========== POP-UP: IMPUESTOS Y RENTAS ========== -->
+    <div class="modal-salud modal-lic" id="modal-impuestos" role="dialog" aria-modal="true" aria-labelledby="modal-imp-titulo" aria-hidden="true">
+      <div class="ms-fondo" data-cerrar-modal></div>
+  
+      <div class="ms-caja">
+        <div class="ms-header">
+          <div class="ms-logo">
+            <span class="ms-logo-icon" aria-hidden="true"><svg class="ic" width="24" height="24" style="color:#0a4fa8"><use href="#i-coin" /></svg></span>
+            <h2 id="modal-imp-titulo">Impuestos y Rentas</h2>
+          </div>
+          <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </div>
+  
+        <div class="ms-cuerpo">
+  
+          <div class="ms-section-header">
+            <div class="ms-section-icon"><svg class="ic" width="26" height="26"><use href="#i-coin" /></svg></div>
+            <h3 class="ms-titulo">Rentas</h3>
+          </div>
+          <p class="lic-intro">Información de la Oficina de Rentas.</p>
+  
+          <div class="health-card">
+            <div class="health-name">¿Qué se hace en esta oficina?</div>
+            <ul class="health-info">
+              <li>Se cobran los impuestos y tasas municipales.</li>
+              <li>Se reciben las notas y la documentación dirigidas al intendente municipal.</li>
+              <li>Para consultas, podés escribirnos por WhatsApp.</li>
+            </ul>
+          </div>
+  
+          <div class="health-card contacto">
+            <div class="health-name">Datos de contacto</div>
+            <ul class="health-info">
+              <li><strong>Dirección:</strong> General Güemes N.º 955, El Carril, Salta.</li>
+              <li><strong>Horario:</strong> lunes a viernes de 7:00 a 13:00 hs.</li>
+            </ul>
+            <a class="ms-wsp" href="https://wa.me/5493874121444?text=Hola%2C%20quisiera%20consultar%20sobre%20Rentas." target="_blank" rel="noopener">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.9 2.3 1 2.5c.1.2 1.7 2.6 4.2 3.6 2.5 1 2.5.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+              Consultar por WhatsApp
+            </a>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  <script>
+    (() => {
+      const abrir = (modal) => {
+        modal.classList.add('abierto');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-abierto');
+        modal.querySelector('[data-cerrar-modal]')?.focus();
+      };
+      const cerrar = (modal) => {
+        modal.classList.remove('abierto');
+        modal.setAttribute('aria-hidden', 'true');
+        if (!document.querySelector('.modal-salud.abierto')) document.body.classList.remove('modal-abierto');
+      };
+      document.querySelectorAll('[data-abrir-modal]').forEach((boton) => {
+        boton.addEventListener('click', (evento) => {
+          evento.preventDefault();
+          const modal = document.getElementById(boton.dataset.abrirModal);
+          if (modal) abrir(modal);
+        });
+      });
+      document.querySelectorAll('.modal-salud').forEach((modal) => {
+        modal.querySelectorAll('[data-cerrar-modal]').forEach((boton) => boton.addEventListener('click', () => cerrar(modal)));
+      });
+      document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape') document.querySelectorAll('.modal-salud.abierto').forEach(cerrar);
+      });
+    })();
+  </script>
+
+  <!-- Ventana reutilizable para compartir noticias, eventos y cursos -->
+  <dialog id="modal-compartir" class="modal-compartir-dialog" aria-labelledby="modal-compartir-titulo">
+    <div class="compartir-panel">
+      <header class="compartir-header">
+        <div>
+          <p class="compartir-eyebrow">Compartir contenido</p>
+          <h2 id="modal-compartir-titulo">Compartir</h2>
+        </div>
+        <button type="button" id="modal-compartir-cerrar" class="compartir-cerrar" aria-label="Cerrar">&times;</button>
+      </header>
+      <div class="compartir-separador"></div>
+      <h3 class="compartir-enlace-titulo">Enlace para compartir</h3>
+      <div class="compartir-enlace">
+        <input id="modal-compartir-url" type="text" readonly aria-label="Enlace para compartir">
+        <button type="button" id="modal-compartir-copiar">Copiar</button>
+      </div>
+      <p id="modal-compartir-estado" class="compartir-estado" role="status" aria-live="polite"></p>
+    </div>
+  </dialog>
 </body>
 
 </html>

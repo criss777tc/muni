@@ -1,0 +1,5 @@
+Dependencias externas del backend Flask
+
+Entorno de desarrollo: Python 3.14.5
+
+Flask Flask-Cors PyMySQL

@@ -1,0 +1,503 @@
+ <!-- ========== POP-UP: SALUD Y FARMACIAS ========== -->
+  <div class="modal-salud" id="modal-salud" role="dialog" aria-modal="true" aria-labelledby="modal-salud-titulo" aria-hidden="true">
+    <div class="ms-fondo" data-cerrar-modal></div>
+
+    <div class="ms-caja">
+      <div class="ms-header">
+        <div class="ms-logo">
+          <span class="ms-logo-icon" aria-hidden="true">➕</span>
+          <h2 id="modal-salud-titulo">Salud y Farmacias</h2>
+        </div>
+        <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <div class="ms-cuerpo">
+
+        <div class="ms-section-header">
+          <div class="ms-section-icon">➕</div>
+          <h3 class="ms-titulo">Salud</h3>
+        </div>
+
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="accordion-salud" class="accordion-toggle" checked>
+          <label for="accordion-salud" class="accordion-label">
+            <span class="arrow">➜</span>
+            ATENCIÓN SANITARIA
+          </label>
+          <div class="accordion-content">
+
+            <div class="health-card">
+              <div class="health-name">Hospital San Rafael:</div>
+              <ul class="health-info">
+                <li>San Rafael 455, El Carril, SALTA.</li>
+                <li><strong>Tel:</strong> 387 490-8036</li>
+              </ul>
+            </div>
+
+            <div class="health-card">
+              <div class="health-name">Centro de Salud "Más salud":</div>
+              <ul class="health-info">
+                <li>San Rafael 155, A4421 El Carril, Salta.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="accordion-farmacias" class="accordion-toggle" checked>
+          <label for="accordion-farmacias" class="accordion-label">
+            <span class="arrow">➜</span>
+            FARMACIAS
+          </label>
+          <div class="accordion-content">
+
+            <div class="pharmacy-grid">
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia Familiar</div>
+                <div class="pharmacy-address">20 de Febrero N. , El Carril-Salta</div>
+                <div class="pharmacy-phone">📞 387 490-XXXX</div>
+                <span class="pharmacy-hours">Lun a Vie 8:00 - 20:00</span>
+              </div>
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia Virgen de las Mercedes</div>
+                <div class="pharmacy-address">Luis D'andrea s/n entre Pellegrini y 1 de Mayo, El Carril, Salta</div>
+                <div class="pharmacy-phone">📞 387 455-8616</div>
+                <span class="pharmacy-hours">Lun a Vie 09:00 - 13:00, 18:00 - 21:30</span>
+              </div>
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia Valuga</div>
+                <div class="pharmacy-address">Belgrano s/n entre San Rafael y Juan Carlos Davalos, El Carril, Salta</div>
+                <div class="pharmacy-phone">📞 387 490-8393</div>
+                <span class="pharmacy-hours">Lun a sab 08:00 - 13:30, 18:00 - 22:00 hs</span>
+              </div>
+
+              <div class="pharmacy-card">
+                <div class="pharmacy-name">💊 Farmacia San Jorge</div>
+                <div class="pharmacy-address">25 de Mayo, El Carril, Salta</div>
+                <div class="pharmacy-phone">📞 387 490-8933</div>
+                <span class="pharmacy-hours">Lun a Vie 09:00 - 13:00, 18:00 - 21:30 hs</span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== POP-UP: LICENCIAS ========== -->
+  <div class="modal-salud modal-lic" id="modal-licencias" role="dialog" aria-modal="true" aria-labelledby="modal-lic-titulo" aria-hidden="true">
+    <div class="ms-fondo" data-cerrar-modal></div>
+
+    <div class="ms-caja">
+      <div class="ms-header">
+        <div class="ms-logo">
+          <span class="ms-logo-icon" aria-hidden="true"><svg class="ic" width="24" height="24" style="color:#0a4fa8"><use href="#i-license" /></svg></span>
+          <h2 id="modal-lic-titulo">Licencias</h2>
+        </div>
+        <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <div class="ms-cuerpo">
+
+        <div class="ms-section-header">
+          <div class="ms-section-icon"><svg class="ic" width="26" height="26"><use href="#i-license" /></svg></div>
+          <h3 class="ms-titulo">Licencias</h3>
+        </div>
+        <p class="lic-intro">Requisitos para acercarte luego a las oficinas del CCL.</p>
+
+        <!-- 1. PRIMERA VEZ -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-lic-primera" class="accordion-toggle" checked>
+          <label for="acc-lic-primera" class="accordion-label"><span class="arrow">➜</span>PRIMERA VEZ</label>
+          <div class="accordion-content">
+            <div class="pharmacy-grid">
+              <div class="pharmacy-card"><div class="pharmacy-name">Clase B</div><div class="pharmacy-address">Auto / camioneta</div><span class="pharmacy-hours">Particular</span></div>
+              <div class="pharmacy-card"><div class="pharmacy-name">Clase A</div><div class="pharmacy-address">Motocicletas</div><span class="pharmacy-hours">Particular</span></div>
+              <div class="pharmacy-card"><div class="pharmacy-name">Clase G</div><div class="pharmacy-address">Tractores</div><span class="pharmacy-hours">Particular</span></div>
+            </div>
+            <div class="health-card" style="margin-top:1.2rem">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia del DNI (último ejemplar vigente) con domicilio en El Carril.</li>
+                <li>Grupo y factor sanguíneo.</li>
+                <li>Curso online según la categoría que quieras sacar: <a href="https://curso.seguridadvial.gob.ar" target="_blank" rel="noopener">curso.seguridadvial.gob.ar</a></li>
+                <li>Hacer el curso de estrellas amarillas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. MENORES -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-lic-menores" class="accordion-toggle">
+          <label for="acc-lic-menores" class="accordion-label"><span class="arrow">➜</span>MENORES DE EDAD (17 AÑOS)</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Autorización</div>
+              <ul class="health-info">
+                <li>Autorización de ambos padres ante Escribano Público o Juez de Paz.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia del DNI (último ejemplar vigente) con domicilio en El Carril.</li>
+                <li>Grupo y factor sanguíneo.</li>
+                <li>Curso online según la categoría que quieras sacar: <a href="https://curso.seguridadvial.gob.ar" target="_blank" rel="noopener">curso.seguridadvial.gob.ar</a></li>
+                <li>Hacer el curso de estrellas amarillas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. RENOVACION -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-lic-renovacion" class="accordion-toggle">
+          <label for="acc-lic-renovacion" class="accordion-label"><span class="arrow">➜</span>RENOVACIÓN</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia del DNI (último ejemplar vigente) con domicilio en El Carril.</li>
+                <li>Fotocopia de la licencia de conducir.</li>
+              </ul>
+            </div>
+            <div class="health-card alerta">
+              <div class="health-name">Importante</div>
+              <ul class="health-info">
+                <li>Tener infracciones por alcoholemia imposibilita realizar cualquier trámite de licencia de conducir hasta que se regularice la situación.</li>
+                <li>Consultá tus infracciones en: <a href="https://consultainfracciones.seguridadvial.gob.ar" target="_blank" rel="noopener">consultainfracciones.seguridadvial.gob.ar</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. CONSULTAS -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-lic-consultas" class="accordion-toggle">
+          <label for="acc-lic-consultas" class="accordion-label"><span class="arrow">➜</span>LICENCIAS PROFESIONALES Y CONSULTAS</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Consultas sobre licencias profesionales u otras consultas</div>
+              <ul class="health-info">
+                <li><strong>Cel:</strong> 387 503-2787 (solo por mensaje)</li>
+                <li><strong>Horario para enviar mensajes:</strong> de 7 a 13 hs.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== POP-UP: REGISTRO CIVIL ========== -->
+  <div class="modal-salud modal-lic" id="modal-registro" role="dialog" aria-modal="true" aria-labelledby="modal-reg-titulo" aria-hidden="true">
+    <div class="ms-fondo" data-cerrar-modal></div>
+
+    <div class="ms-caja">
+      <div class="ms-header">
+        <div class="ms-logo">
+          <span class="ms-logo-icon" aria-hidden="true"><svg class="ic" width="24" height="24" style="color:#0a4fa8"><use href="#i-doc" /></svg></span>
+          <h2 id="modal-reg-titulo">Registro Civil</h2>
+        </div>
+        <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+
+      <div class="ms-cuerpo">
+
+        <div class="ms-section-header">
+          <div class="ms-section-icon"><svg class="ic" width="26" height="26"><use href="#i-doc" /></svg></div>
+          <h3 class="ms-titulo">Registro Civil</h3>
+        </div>
+        <p class="lic-intro">Requisitos y trámites que se realizan en nuestra oficina.</p>
+
+        <!-- 1. TRÁMITES DE DNI -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-dni" class="accordion-toggle">
+          <label for="acc-reg-dni" class="accordion-label"><span class="arrow">➜</span>TRÁMITES DE DNI</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">DNI 0 año (recién nacido)</div>
+              <ul class="health-info">
+                <li>Mamá, papá o tutor legal con DNI.</li>
+                <li>El recién nacido debe estar presente.</li>
+                <li>Acta de nacimiento con oblea original.</li>
+                <li>Es totalmente gratuito. Demora aproximada de 90 días; se entrega en el domicilio declarado por correo postal. Si la entrega fracasa, se retira por padre, madre o representante legal con DNI en la oficina generadora del trámite.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Actualización de 5 a 8 años (obligatoria)</div>
+              <ul class="health-info">
+                <li>El menor debe concurrir acompañado por el padre, madre o representante legal (con DNI y guarda legal en caso del representante).</li>
+                <li>DNI anterior, si lo tuviere.</li>
+                <li>Acta de nacimiento del niño/a legalizada y en buenas condiciones (solo se solicita actualización del acta en caso de filiación única o ante alguna rectificación).</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Actualización de 14 años (obligatoria)</div>
+              <ul class="health-info">
+                <li>El interesado debe asistir personalmente con DNI anterior, si lo tuviere.</li>
+                <li>Acta de nacimiento legalizada en buenas condiciones (solo se solicita actualizada si el acta tiene alguna modificación o solo contiene una filiación).</li>
+                <li>Si el ciudadano tiene 21 años o más: debe concurrir con información sumaria de identidad emitida por el Poder Judicial o Juez de Paz.</li>
+                <li>Si tiene entre 18 y 20 años: debe traer además documento de alguno de los padres; si estuviesen fallecidos, acta legalizada de defunción.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Cambio de domicilio</div>
+              <ul class="health-info">
+                <li>Todo cambio de domicilio genera la emisión de un nuevo DNI formato tarjeta con el domicilio actual.</li>
+                <li>Mayores de 14 años: el interesado debe asistir personalmente con sus datos personales.</li>
+                <li>Menores de 14 años: debe asistir acompañado de padre, madre o tutor legal con DNI, y con acta de nacimiento ORIGINAL legalizada por el Registro Civil (no se aceptan certificados ni fotocopias).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. ACTAS ONLINE -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-actas" class="accordion-toggle">
+          <label for="acc-reg-actas" class="accordion-label"><span class="arrow">➜</span>SOLICITAR ACTAS ONLINE</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Paso a paso</div>
+              <ul class="health-info pasos">
+                <li>Ingresá a <a href="https://registrocivilsalta.gob.ar/oficial" target="_blank" rel="noopener">www.registrocivilsalta.gob.ar</a> → <strong>Actas</strong> → <strong>Solicitud de actas online</strong> → <strong>Iniciar solicitud / Registrarte</strong>.</li>
+                <li><strong>Registrarte como usuario</strong> → <strong>Crear nueva cuenta</strong> (creá un usuario y una contraseña para acceder al sistema) → <strong>Crear cuenta</strong>.</li>
+                <li>Te van a mandar un mensaje a tu correo electrónico. Entrá al mensaje e ingresá por el link azul.</li>
+                <li><strong>Actas online – Áreas</strong> → <strong>Continuar</strong> → <strong>Iniciar y gestionar pedido</strong> → <strong>Iniciar pedido</strong>.</li>
+                <li>Elegí la opción: <strong>Nacimiento / Matrimonio / Defunción / Unión convivencial</strong>.</li>
+                <li>Completá los campos con los datos. <strong>Tiene marginal:</strong> significa si la partida tiene alguna modificación. <strong>Destino:</strong> ante quién se requiere.</li>
+                <li><strong>Confirmar</strong> y sacá una captura de pantalla para conservar el número de auditoría.</li>
+                <li><strong>Pagar la partida.</strong> Consultá el precio y las formas de pago en nuestra oficina.</li>
+                <li>Una vez abonado el trámite, el acta llega en 10 días al correo electrónico que aportaste.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">¿Necesitás ayuda?</div>
+              <ul class="health-info">
+                <li>Este trámite se realiza online. Si necesitás ayuda u orientación para hacerlo, acercate a nuestra oficina.</li>
+              </ul>
+            </div>
+            <div class="health-card alerta">
+              <div class="health-name">Reclamos</div>
+              <ul class="health-info">
+                <li>POR RECLAMO ENVIAR MJE AL registrocivil.digitalizacion@gmail.com</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PASAPORTE -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-pasaporte" class="accordion-toggle">
+          <label for="acc-reg-pasaporte" class="accordion-label"><span class="arrow">➜</span>PASAPORTE</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Podés consultar la información para tramitar tu pasaporte</div>
+              <ul class="health-info">
+                <li>Pasaporte Regular → <a href="https://registrocivilsalta.gob.ar/oficial/tramites/dni-pasaporte-2/pasaporte-regular-12" target="_blank" rel="noopener">Consultar requisitos</a></li>
+                <li>Pasaporte Express → <a href="https://registrocivilsalta.gob.ar/oficial/tramites/dni-pasaporte-2/pasaporte-expres-13" target="_blank" rel="noopener">Consultar requisitos</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. RECTIFICACIÓN DE DNI -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-rectificacion" class="accordion-toggle">
+          <label for="acc-reg-rectificacion" class="accordion-label"><span class="arrow">➜</span>RECTIFICACIÓN DE DNI</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">¿Qué es?</div>
+              <ul class="health-info">
+                <li>Consiste en solicitar al Registro Nacional de las Personas la modificación de los datos biográficos del ciudadano, lo que genera la emisión de un nuevo DNI rectificado.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Menores de 14 años: deben ser acompañados por padre, madre o representante legal con DNI.</li>
+                <li>DNI a rectificar.</li>
+                <li>Partida de nacimiento RECTIFICADA (acta de nacimiento con sus modificaciones, debidamente legalizada por el Registro Civil). No se aceptan certificados de nacimiento ni fotocopias.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Aclaraciones</div>
+              <ul class="health-info">
+                <li>La rectificación puede deberse a reconocimiento paterno, adición de apellido materno, adopción plena, identidad de género (Ley 26.743) o corrección de datos identificatorios cuando surjan errores en el acta de nacimiento con posterioridad a la registración.</li>
+                <li>El DNI será remitido en un plazo aproximado de 90 días al domicilio declarado, por correo postal, sin costo adicional. Si la entrega fracasa, será remitido a la oficina donde se originó el trámite.</li>
+                <li>El DNI tendrá validez de 15 años desde su emisión. En menores, hasta la edad de la próxima actualización (5/8 años o 14 años), o antes si se modifica el acta de nacimiento.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. INSCRIPCIONES -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-inscripciones" class="accordion-toggle">
+          <label for="acc-reg-inscripciones" class="accordion-label"><span class="arrow">➜</span>INSCRIPCIÓN DE NACIMIENTOS Y DEFUNCIONES</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Importante</div>
+              <ul class="health-info">
+                <li>Nacimientos: solo se inscriben bebés nacidos en esta localidad.</li>
+                <li>Defunciones: solo se inscriben fallecidos en esta localidad.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. ADICIÓN DE APELLIDO -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-apellido" class="accordion-toggle">
+          <label for="acc-reg-apellido" class="accordion-label"><span class="arrow">➜</span>ADICIÓN DE APELLIDO MATERNO/PATERNO</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Acta de nacimiento original y actualizada del o los inscriptos, y copia del DNI. En caso de defunción, acta de defunción.</li>
+                <li>DNI de la madre o padre de quien se adiciona el apellido (copia y original).</li>
+                <li>Si los progenitores son casados: acta de matrimonio o fotocopia autenticada de la primera página de la libreta de matrimonio.</li>
+                <li>Firma la solicitud:
+                  <br>— si el inscripto es mayor de edad, firma el inscripto;
+                  <br>— si tiene más de 13 años, firma el inscripto (no es necesaria la presencia de los padres);
+                  <br>— si es menor de edad, firman y asisten ambos progenitores.</li>
+                <li>DNI original y fotocopia del solicitante.</li>
+                <li>Estampillas de Rentas (España 625) o IPV (Belgrano). Es válido para uno o más inscriptos que solicitan la adición.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Cómo sigue el trámite</div>
+              <ul class="health-info">
+                <li>El trámite se inicia en el Departamento Jurídico. Una vez realizada la resolución administrativa y la nota marginal en el libro respectivo, termina.</li>
+                <li>La nueva acta debe solicitarse por la página del Registro Civil: <a href="https://registrocivilsalta.gob.ar/oficial" target="_blank" rel="noopener">registrocivilsalta.gob.ar/oficial</a> o telefónicamente al 148.</li>
+                <li>Luego deberá iniciar el trámite de nuevo ejemplar de DNI en el departamento de Identificación.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. MATRIMONIO -->
+        <div class="ms-accordion salud">
+          <input type="checkbox" id="acc-reg-matrimonio" class="accordion-toggle">
+          <label for="acc-reg-matrimonio" class="accordion-label"><span class="arrow">➜</span>MATRIMONIO</label>
+          <div class="accordion-content">
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>DNI y fotocopia de DNI de ambos contrayentes (uno, sí o sí, con domicilio en El Carril).</li>
+                <li>Fotocopia de DNI de dos testigos mayores de 18 años.</li>
+                <li>Partidas de nacimiento originales y actualizadas de ambos contrayentes (no mayor a seis meses). Si son extranjeros, deben estar apostilladas en el país de origen; y si son de países que no hablan castellano, traducidas por traductor oficial registrado en la Ciudad Judicial.</li>
+                <li>Divorciados: acta de matrimonio anterior con marginal de divorcio, original y actualizada (no mayor a seis meses), con apostilla y traducción si corresponde.</li>
+                <li>Viudos: acta de matrimonio anterior, original y actualizada (no mayor a seis meses), y acta de defunción original y actualizada (no mayor a seis meses).</li>
+              </ul>
+            </div>
+            <div class="health-card alerta">
+              <div class="health-name">Importante</div>
+              <ul class="health-info">
+                <li>Solicitar turno con 10 días de anticipación.</li>
+                <li>La documentación debe presentarse con 72 horas de anticipación antes de la celebración.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. UNIÓN CONVIVENCIAL -->
+        <div class="ms-accordion farmacias">
+          <input type="checkbox" id="acc-reg-union" class="accordion-toggle">
+          <label for="acc-reg-union" class="accordion-label"><span class="arrow">➜</span>UNIÓN CONVIVENCIAL</label>
+          <div class="accordion-content">
+            <div class="health-card alerta">
+              <div class="health-name">Aviso</div>
+              <ul class="health-info">
+                <li>Este trámite no se realiza en esta oficina. Solo brindamos los requisitos y orientación.</li>
+              </ul>
+            </div>
+            <div class="health-card">
+              <div class="health-name">Requisitos</div>
+              <ul class="health-info">
+                <li>Fotocopia de DNI de ambos contrayentes, con mismo domicilio.</li>
+                <li>Fotocopia de DNI de dos testigos mayores de 18 años.</li>
+                <li>Partidas de nacimiento originales y actualizadas de ambos (no mayor a seis meses). Extranjeros: apostilladas en el país de origen y traducidas por traductor oficial registrado en la Ciudad Judicial, si corresponde.</li>
+                <li>Divorciados: acta de matrimonio anterior con marginal de divorcio, original y actualizada (no mayor a seis meses), con apostilla y traducción si corresponde.</li>
+                <li>Viudos: acta de matrimonio anterior, original y actualizada (no mayor a seis meses), y acta de defunción original y actualizada (no mayor a seis meses).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. CONTACTO (cuadro fijo, no se despliega) -->
+        <div class="health-card contacto">
+          <div class="health-name">Datos de contacto</div>
+          <ul class="health-info">
+            <li><strong>Dirección:</strong> Gral. Güemes N.º 995 (dentro del edificio municipal), El Carril, Salta.</li>
+            <li><strong>Horario:</strong> lunes a viernes de 7:00 a 12:30 hs.</li>
+            <li><strong>Teléfono:</strong> 4908319</li>
+            <li><strong>Sitio web oficial:</strong> <a href="https://registrocivilsalta.gob.ar/oficial" target="_blank" rel="noopener">registrocivilsalta.gob.ar/oficial</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+ <!-- ========== POP-UP: IMPUESTOS Y RENTAS ========== -->
+    <div class="modal-salud modal-lic" id="modal-impuestos" role="dialog" aria-modal="true" aria-labelledby="modal-imp-titulo" aria-hidden="true">
+      <div class="ms-fondo" data-cerrar-modal></div>
+  
+      <div class="ms-caja">
+        <div class="ms-header">
+          <div class="ms-logo">
+            <span class="ms-logo-icon" aria-hidden="true"><svg class="ic" width="24" height="24" style="color:#0a4fa8"><use href="#i-coin" /></svg></span>
+            <h2 id="modal-imp-titulo">Impuestos y Rentas</h2>
+          </div>
+          <button type="button" class="ms-cerrar" aria-label="Cerrar ventana" data-cerrar-modal>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </div>
+  
+        <div class="ms-cuerpo">
+  
+          <div class="ms-section-header">
+            <div class="ms-section-icon"><svg class="ic" width="26" height="26"><use href="#i-coin" /></svg></div>
+            <h3 class="ms-titulo">Rentas</h3>
+          </div>
+          <p class="lic-intro">Información de la Oficina de Rentas.</p>
+  
+          <div class="health-card">
+            <div class="health-name">¿Qué se hace en esta oficina?</div>
+            <ul class="health-info">
+              <li>Se cobran los impuestos y tasas municipales.</li>
+              <li>Se reciben las notas y la documentación dirigidas al intendente municipal.</li>
+              <li>Para consultas, podés escribirnos por WhatsApp.</li>
+            </ul>
+          </div>
+  
+          <div class="health-card contacto">
+            <div class="health-name">Datos de contacto</div>
+            <ul class="health-info">
+              <li><strong>Dirección:</strong> General Güemes N.º 955, El Carril, Salta.</li>
+              <li><strong>Horario:</strong> lunes a viernes de 7:00 a 13:00 hs.</li>
+            </ul>
+            <a class="ms-wsp" href="https://wa.me/5493874121444?text=Hola%2C%20quisiera%20consultar%20sobre%20Rentas." target="_blank" rel="noopener">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.9 2.3 1 2.5c.1.2 1.7 2.6 4.2 3.6 2.5 1 2.5.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+              Consultar por WhatsApp
+            </a>
+          </div>
+  
+        </div>
+      </div>
+    </div>

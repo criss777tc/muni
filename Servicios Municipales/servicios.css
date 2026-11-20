@@ -1,0 +1,724 @@
+/* ====================================================
+   POP-UP SALUD Y FARMACIAS
+   (estilos aislados: todo cuelga de .modal-salud para no
+   mezclarse con el resto del sitio)
+   ==================================================== */
+.modal-salud {
+    --s-azul-oscuro: #03296b;
+    --s-azul: #0a4fa8;
+    --s-azul-medio: #1a6fd1;
+    --s-azul-claro: #e8f0fb;
+    --s-azul-fondo: #f2f6fc;
+    --s-texto: #1b2433;
+    --s-suave: #55627a;
+    --s-borde: #dbe5f3;
+    --s-sombra: 0 2px 6px rgba(10, 40, 100, 0.06), 0 10px 28px rgba(10, 40, 100, 0.08);
+    --s-sombra-hover: 0 4px 10px rgba(10, 40, 100, 0.1), 0 16px 36px rgba(10, 40, 100, 0.14);
+
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.modal-salud.abierto {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease, visibility 0s;
+}
+
+body.modal-abierto {
+    overflow: hidden;
+}
+
+.ms-fondo {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 32, 85, 0.66);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.ms-caja {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 920px;
+    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
+    background: linear-gradient(180deg, var(--s-azul-fondo) 0%, #ffffff 60%);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+    color: var(--s-texto);
+    transform: translateY(26px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.modal-salud.abierto .ms-caja {
+    transform: none;
+}
+
+/* ---------- encabezado ---------- */
+.ms-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 24px;
+    background: linear-gradient(90deg, var(--s-azul) 0%, var(--s-azul-oscuro) 100%);
+    border-bottom: 4px solid var(--cyan-accent);
+    color: var(--blanco);
+}
+
+.ms-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ms-logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--blanco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.ms-logo h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--blanco);
+}
+
+.ms-cerrar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--blanco);
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.ms-cerrar:hover {
+    background: var(--blanco);
+    color: var(--s-azul-oscuro);
+    transform: rotate(90deg);
+}
+
+.ms-cerrar:focus-visible,
+.modal-salud .accordion-toggle:focus-visible ~ .accordion-label {
+    outline: 3px solid var(--cyan-accent);
+    outline-offset: -3px;
+}
+
+/* ---------- cuerpo con scroll ---------- */
+.ms-cuerpo {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 32px 28px 36px;
+}
+
+.ms-section-header {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+    margin-bottom: 1.8rem;
+    padding: 1.4rem 1.2rem;
+    background: var(--blanco);
+    border: 1px solid var(--s-borde);
+    border-radius: 20px;
+    box-shadow: var(--s-sombra);
+}
+
+.ms-section-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, var(--s-azul-medio), var(--cyan-accent));
+}
+
+.ms-section-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--s-azul);
+    background: var(--s-azul-claro);
+    border: 2px solid var(--s-azul-medio);
+}
+
+.ms-titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--s-azul-oscuro);
+}
+
+/* ---------- acordeones ---------- */
+.modal-salud .ms-accordion {
+    margin-bottom: 1.4rem;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--blanco);
+    border: 1px solid var(--s-borde);
+    box-shadow: var(--s-sombra);
+}
+
+.modal-salud .ms-accordion:last-child {
+    margin-bottom: 0;
+}
+
+.modal-salud .accordion-toggle {
+    display: none;
+}
+
+.modal-salud .accordion-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.7rem;
+    color: var(--blanco);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    user-select: none;
+    transition: filter 0.25s ease;
+}
+
+.modal-salud .accordion-label:hover {
+    filter: brightness(1.08);
+}
+
+.modal-salud .accordion-label .arrow {
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.modal-salud .accordion-toggle:checked ~ .accordion-label .arrow {
+    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.modal-salud .ms-accordion.salud .accordion-label {
+    background: linear-gradient(90deg, var(--s-azul), var(--s-azul-medio));
+}
+
+.modal-salud .ms-accordion.farmacias .accordion-label {
+    background: linear-gradient(90deg, var(--s-azul-oscuro), var(--s-azul));
+}
+
+.modal-salud .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1.7rem;
+    background: var(--blanco);
+    transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.modal-salud .accordion-toggle:checked ~ .accordion-content {
+    max-height: 2000px;
+    padding: 1.7rem;
+}
+
+/* ---------- centros de salud ---------- */
+.modal-salud .health-card {
+    margin-bottom: 1.2rem;
+    padding: 1.2rem 1.4rem;
+    background: var(--s-azul-fondo);
+    border: 1px solid var(--s-borde);
+    border-left: 5px solid var(--s-azul-medio);
+    border-radius: 14px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.modal-salud .health-card:last-child {
+    margin-bottom: 0;
+}
+
+.modal-salud .health-card:hover {
+    transform: translateY(-2px);
+    background: var(--blanco);
+    box-shadow: var(--s-sombra-hover);
+}
+
+.modal-salud .health-name {
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--s-azul-oscuro);
+}
+
+.modal-salud .health-info {
+    list-style: none;
+}
+
+.modal-salud .health-info li {
+    position: relative;
+    padding-left: 1.2rem;
+    font-size: 0.93rem;
+    line-height: 1.8;
+    color: var(--s-suave);
+}
+
+.modal-salud .health-info li::before {
+    content: "";
+    position: absolute;
+    left: 0.15rem;
+    top: 0.78rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--s-azul-medio);
+}
+
+.modal-salud .health-info li strong {
+    color: var(--s-azul);
+}
+
+/* ---------- farmacias ---------- */
+.modal-salud .pharmacy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+}
+
+.modal-salud .pharmacy-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.3rem 1.4rem;
+    background: var(--blanco);
+    border: 1px solid var(--s-borde);
+    border-top: 5px solid var(--s-azul-medio);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(10, 40, 100, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.modal-salud .pharmacy-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--s-sombra-hover);
+}
+
+.modal-salud .pharmacy-name {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--s-azul-oscuro);
+}
+
+.modal-salud .pharmacy-address {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--s-suave);
+}
+
+.modal-salud .pharmacy-phone {
+    margin-top: 0.7rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--s-azul);
+}
+
+.modal-salud .pharmacy-hours {
+    display: inline-block;
+    margin-top: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--s-azul);
+    background: var(--s-azul-claro);
+    border: 1px solid #c9dcf5;
+    border-radius: 999px;
+}
+
+/* ---------- celular: se muestra como hoja desde abajo ---------- */
+@media (max-width: 600px) {
+    .modal-salud {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .ms-caja {
+        max-width: none;
+        max-height: 92vh;
+        max-height: 92dvh;
+        border-radius: 24px 24px 0 0;
+        transform: translateY(60px);
+    }
+
+    .ms-header {
+        padding: 14px 16px;
+    }
+
+    .ms-logo h2 {
+        font-size: 0.9rem;
+        letter-spacing: 1.5px;
+    }
+
+    .ms-cuerpo {
+        padding: 20px 14px 28px;
+    }
+
+    .ms-titulo {
+        font-size: 1.6rem;
+    }
+
+    .modal-salud .accordion-label {
+        font-size: 0.82rem;
+        padding: 0.95rem 1.1rem;
+    }
+
+    .modal-salud .accordion-toggle:checked ~ .accordion-content {
+        padding: 1.1rem;
+    }
+
+    .modal-salud .pharmacy-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-salud,
+    .ms-caja {
+        transition: none;
+    }
+}
+
+
+/* ====================================================
+   POP-UP BIOGRAFÍA DEL INTENDENTE
+   (reutiliza la estructura del pop-up de Salud; todo cuelga
+   de .modal-bio para no mezclarse con el resto del sitio)
+   ==================================================== */
+.modal-bio .ms-caja {
+    max-width: 1100px;
+}
+
+.modal-bio .ms-cuerpo {
+    padding: 36px 32px 40px;
+}
+
+.modal-bio .bio-section {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2.2rem;
+    align-items: start;
+}
+
+/* Tarjeta de la foto (queda fija mientras se lee el texto) */
+.modal-bio .photo-card {
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    background: var(--blanco);
+    border: 1px solid var(--s-borde);
+    border-radius: 24px;
+    box-shadow: 0 6px 16px rgba(10, 40, 100, 0.1), 0 24px 48px rgba(10, 40, 100, 0.14);
+}
+
+.modal-bio .photo-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.modal-bio .photo-caption {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    letter-spacing: 1.5px;
+    color: var(--blanco);
+    background: linear-gradient(90deg, var(--s-azul), var(--s-azul-oscuro));
+    border-top: 4px solid var(--cyan-accent);
+}
+
+/* Tarjeta de texto */
+.modal-bio .text-content {
+    padding: 2.3rem 2.4rem;
+    background: var(--blanco);
+    border: 1px solid var(--s-borde);
+    border-radius: 24px;
+    box-shadow: var(--s-sombra);
+}
+
+.modal-bio .title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.35rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--s-azul);
+    background: var(--s-azul-claro);
+    border: 1px solid #c9dcf5;
+    border-radius: 999px;
+}
+
+.modal-bio .title-badge::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--s-azul-medio);
+}
+
+.modal-bio .name-title {
+    margin-bottom: 0.3rem;
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--s-texto);
+}
+
+.modal-bio .name-subtitle {
+    margin-bottom: 1.6rem;
+    padding-bottom: 1.4rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--s-azul);
+    border-bottom: 1px solid var(--s-borde);
+}
+
+.modal-bio .bio-text {
+    margin-bottom: 1.15rem;
+    font-size: 0.98rem;
+    line-height: 1.85;
+    color: #4a566c;
+}
+
+/* Frase destacada */
+.modal-bio .highlight-box {
+    margin: 1.8rem 0 0.5rem;
+    padding: 1.3rem 1.6rem;
+    background: var(--s-azul-fondo);
+    border: 1px solid var(--s-borde);
+    border-left: 5px solid var(--s-azul-medio);
+    border-radius: 0 16px 16px 0;
+}
+
+.modal-bio .highlight-box p {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--s-azul-oscuro);
+}
+
+/* Redes sociales */
+.modal-bio .social-bar {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--s-borde);
+}
+
+.modal-bio .social-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--blanco);
+    border: 2px solid var(--s-borde);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.modal-bio .social-btn.instagram img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.modal-bio .social-btn.facebook img {
+    width: 49px;
+    height: 49px;
+    object-fit: contain;
+}
+
+.modal-bio .social-btn:hover {
+    transform: translateY(-3px) scale(1.08);
+    border-color: var(--s-azul-medio);
+    box-shadow: 0 8px 20px rgba(10, 40, 100, 0.2);
+}
+
+.modal-bio .social-btn:focus-visible {
+    outline: 3px solid var(--cyan-accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 850px) {
+    .modal-bio .bio-section {
+        grid-template-columns: 1fr;
+        gap: 1.6rem;
+    }
+
+    .modal-bio .photo-card {
+        position: static;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .modal-bio .text-content {
+        padding: 1.8rem 1.4rem;
+    }
+
+    .modal-bio .name-title {
+        font-size: 2.1rem;
+    }
+
+    .modal-bio .name-subtitle {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-bio .ms-cuerpo {
+        padding: 20px 14px 28px;
+    }
+}
+/* ====== POP-UP LICENCIAS (extras) ====== */
+.modal-lic .lic-intro {
+    text-align: center;
+    margin: -0.8rem 0 1.6rem;
+    font-size: 0.9rem;
+    color: var(--s-suave);
+}
+
+.modal-salud .health-info a {
+    color: var(--s-azul);
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.modal-salud .health-card.alerta {
+    background: #fbeeee;
+    border-left-color: #c0392b;
+}
+
+.modal-salud .health-card.alerta .health-name {
+    color: #8e2a20;
+}
+
+.modal-salud .health-card.alerta .health-info li::before {
+    background: #c0392b;
+}
+
+/* ====== POP-UPS REGISTRO CIVIL E IMPUESTOS (extras) ====== */
+.modal-salud .accordion-toggle:checked ~ .accordion-content {
+    max-height: 4000px;
+}
+
+/* pasos numerados */
+.modal-salud .health-info.pasos {
+    counter-reset: paso;
+}
+
+.modal-salud .health-info.pasos li {
+    counter-increment: paso;
+    padding-left: 2.2rem;
+}
+
+.modal-salud .health-info.pasos li::before {
+    content: counter(paso);
+    left: 0;
+    top: 0.5rem;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--s-azul-medio);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* botón de WhatsApp */
+.modal-salud .ms-wsp {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    padding: 11px 22px;
+    background: #25d366;
+    color: #fff;
+    font-size: 0.93rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.modal-salud .ms-wsp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(37, 211, 102, 0.45);
+}
+
+/* cuadro fijo de datos de contacto (no se despliega) */
+.modal-salud .health-card.contacto {
+    margin-top: 1.8rem;
+    padding: 1.4rem 1.6rem;
+    background: var(--blanco);
+    border: 1px solid var(--s-borde);
+    border-left: 5px solid var(--s-azul-medio);
+    box-shadow: var(--s-sombra);
+}
+
+.modal-salud .health-card.contacto .health-name {
+    margin-bottom: 0.7rem;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}

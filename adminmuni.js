@@ -80,6 +80,18 @@ function mostrarToast(mensaje, tipo = 'success') {
 function formatearFecha(fechaStr) {
     if (!fechaStr) return '—';
     try {
+        const partes = String(fechaStr).split('T')[0].split('-');
+        if (partes.length === 3) {
+            const anio = parseInt(partes[0], 10);
+            const mes = parseInt(partes[1], 10) - 1;
+            const dia = parseInt(partes[2], 10);
+            const d = new Date(anio, mes, dia);
+            return d.toLocaleDateString('es-AR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
         const d = new Date(fechaStr);
         return d.toLocaleDateString('es-AR', {
             day: '2-digit',
@@ -117,6 +129,18 @@ function actualizarCabeceraTabla() {
                 <th style="width: 110px;">Fecha de Inicio</th>
                 <th style="width: 110px;">Costo</th>
                 <th>Descripción</th>
+                <th style="width: 100px;">Acciones</th>
+            </tr>
+        `;
+    } else if (tabActual === 'eventos') {
+        thead.innerHTML = `
+            <tr>
+                <th style="width: 60px;">ID</th>
+                <th style="width: 90px;">Imagen</th>
+                <th>Nombre</th>
+                <th style="width: 190px;">Ubicación</th>
+                <th>Descripción</th>
+                <th style="width: 110px;">Fecha</th>
                 <th style="width: 100px;">Acciones</th>
             </tr>
         `;
@@ -234,6 +258,7 @@ async function cargarDatos() {
                 const imagen = item.imagen || item.imagen_eventos || null;
                 const desc = item.descripcion || item.descripcion_eventos || '';
                 const fecha = item.fecha || item.fecha_eventos || '';
+                const ubicacion = item.ubicacion || item.ubicacion_eventos || item.ubicacion_evento || '';
 
                 const imgUrl = imagenUrl(imagen);
 
@@ -246,6 +271,7 @@ async function cargarDatos() {
                         }
                     </td>
                     <td>${nombre}</td>
+                    ${tabActual === 'eventos' ? `<td>${ubicacion || 'Sin ubicación'}</td>` : ''}
                     <td class="table-desc" title="${desc}">${desc}</td>
                     <td>${formatearFecha(fecha)}</td>
                     <td>
@@ -295,6 +321,7 @@ const formItem = document.getElementById('formItem');
 
 function configurarFormularioSegunTab() {
     const grupoDuracion = document.getElementById('grupoDuracion');
+    const grupoUbicacion = document.getElementById('grupoUbicacion');
     const grupoCosto = document.getElementById('grupoCosto');
     const grupoFecha = document.getElementById('grupoFecha');
     const labelFecha = document.getElementById('labelFecha');
@@ -307,6 +334,9 @@ function configurarFormularioSegunTab() {
         if (labelNombre) labelNombre.textContent = 'Nombre del curso';
         if (itemNombre) itemNombre.placeholder = 'Ej: Taller de Fotografía y Edición Digital';
         if (grupoDuracion) grupoDuracion.style.display = 'block';
+        if (grupoUbicacion) grupoUbicacion.style.display = 'block';
+        const labelUbicacion = document.getElementById('labelUbicacion');
+        if (labelUbicacion) labelUbicacion.textContent = 'Ubicación del curso';
         if (grupoCosto) grupoCosto.style.display = 'block';
         if (grupoFecha) grupoFecha.style.display = 'block';
         if (labelFecha) labelFecha.textContent = 'Fecha de inicio';
@@ -316,6 +346,9 @@ function configurarFormularioSegunTab() {
         if (labelNombre) labelNombre.textContent = 'Nombre';
         if (itemNombre) itemNombre.placeholder = 'Ingrese el nombre';
         if (grupoDuracion) grupoDuracion.style.display = 'none';
+        if (grupoUbicacion) grupoUbicacion.style.display = tabActual === 'eventos' ? 'block' : 'none';
+        const labelUbicacion = document.getElementById('labelUbicacion');
+        if (labelUbicacion) labelUbicacion.textContent = 'Ubicación del evento';
         if (grupoCosto) grupoCosto.style.display = 'none';
         if (grupoFecha) grupoFecha.style.display = 'block';
         if (labelFecha) labelFecha.textContent = 'Fecha';
@@ -401,7 +434,7 @@ if (inputMultiples) {
         if (fotosExistentes.length > 0) {
             const headerExistentes = document.createElement('div');
             headerExistentes.className = 'galeria-info-text';
-            headerExistentes.textContent = 'Fotos ya guardadas:';
+            headerExistentes.textContent = 'Fotos ya guardadas en el curso:';
             galeria.appendChild(headerExistentes);
 
             const gridExist = document.createElement('div');
@@ -415,22 +448,34 @@ if (inputMultiples) {
 
         const info = document.createElement('div');
         info.className = 'galeria-info-text';
-        info.textContent = `${files.length} foto(s) nueva(s) seleccionada(s):`;
+        info.innerHTML = `<strong>${files.length} foto(s) nueva(s) seleccionada(s)</strong> (la 1ª será la Portada principal):`;
         galeria.appendChild(info);
 
         const grid = document.createElement('div');
         grid.className = 'galeria-preview-grid';
 
+        // Pre-crear los contenedores en orden para que la lectura asíncrona no desordene las miniaturas
+        const items = files.map((file, idx) => {
+            const item = document.createElement('div');
+            item.className = 'thumb-preview-item' + (idx === 0 ? ' thumb-preview-portada' : '');
+            const badgeTexto = idx === 0 ? '★ Portada' : `#${idx + 1}`;
+            item.innerHTML = `
+                <div class="thumb-preview-loading">Cargando...</div>
+                <span class="thumb-preview-num ${idx === 0 ? 'badge-portada' : ''}">${badgeTexto}</span>
+            `;
+            grid.appendChild(item);
+            return item;
+        });
+
         files.forEach((file, idx) => {
             const reader = new FileReader();
             reader.onload = (ev) => {
-                const item = document.createElement('div');
-                item.className = 'thumb-preview-item';
-                item.innerHTML = `
-                    <img src="${ev.target.result}" alt="Foto ${idx + 1}">
-                    <span class="thumb-preview-num">${idx + 1}</span>
-                `;
-                grid.appendChild(item);
+                const img = document.createElement('img');
+                img.src = ev.target.result;
+                img.alt = idx === 0 ? 'Portada del curso' : `Foto ${idx + 1}`;
+                const loading = items[idx].querySelector('.thumb-preview-loading');
+                if (loading) loading.remove();
+                items[idx].insertBefore(img, items[idx].firstChild);
             };
             reader.readAsDataURL(file);
         });
@@ -535,7 +580,8 @@ function abrirEditarPorId(id) {
             item.nombre || item.nombre_eventos || '',
             item.descripcion || item.descripcion_eventos || '',
             item.fecha || item.fecha_eventos || '',
-            item.imagen || item.imagen_eventos || ''
+            item.imagen || item.imagen_eventos || '',
+            item.ubicacion || item.ubicacion_eventos || item.ubicacion_evento || ''
         );
     }
 }
@@ -560,12 +606,14 @@ function abrirEditarCurso(curso) {
     document.getElementById('itemId').value = curso.id_curso;
     document.getElementById('itemNombre').value = curso.nombre_curso || '';
     document.getElementById('itemDescripcion').value = curso.descripcion_curso || '';
+    const ubicacionEl = document.getElementById('itemUbicacion');
+    if (ubicacionEl) ubicacionEl.value = curso.ubicacion_curso || '';
 
     const durEl = document.getElementById('itemDuracion');
     if (durEl) durEl.value = curso.duracion_curso || '';
 
     const fecEl = document.getElementById('itemFecha');
-    if (fecEl) fecEl.value = curso.fecha_inicio || curso['fecha de inicio'] || '';
+    if (fecEl) fecEl.value = fechaParaInput(curso.fecha_inicio || curso['fecha de inicio']);
 
     const cosEl = document.getElementById('itemCosto');
     if (cosEl) cosEl.value = curso.coste_inscripcion || '';
@@ -606,15 +654,35 @@ function abrirEditarCurso(curso) {
     abrirModal();
 }
 
+// Convierte fechas devueltas por Flask/MySQL al formato requerido por
+// <input type="date">: AAAA-MM-DD.
+function fechaParaInput(fecha) {
+    if (!fecha) return '';
+
+    const texto = String(fecha).trim();
+    const fechaISO = texto.match(/^(\d{4}-\d{2}-\d{2})/);
+    if (fechaISO) return fechaISO[1];
+
+    const fechaParseada = new Date(texto);
+    if (Number.isNaN(fechaParseada.getTime())) return '';
+
+    const año = fechaParseada.getUTCFullYear();
+    const mes = String(fechaParseada.getUTCMonth() + 1).padStart(2, '0');
+    const dia = String(fechaParseada.getUTCDate()).padStart(2, '0');
+    return `${año}-${mes}-${dia}`;
+}
+
 // Abrir modal para editar
-function abrirEditar(id, nombre, descripcion, fecha, imagen) {
+function abrirEditar(id, nombre, descripcion, fecha, imagen, ubicacion = '') {
     editandoId = id;
     document.getElementById('modalTitulo').textContent =
         `Editar ${tabActual === 'noticias' ? 'Noticia' : 'Evento'}`;
     document.getElementById('itemId').value = id;
     document.getElementById('itemNombre').value = nombre;
     document.getElementById('itemDescripcion').value = descripcion;
-    document.getElementById('itemFecha').value = fecha || '';
+    document.getElementById('itemFecha').value = fechaParaInput(fecha);
+    const ubicacionEl = document.getElementById('itemUbicacion');
+    if (ubicacionEl) ubicacionEl.value = ubicacion || '';
 
     // Mostrar imagen existente
     const preview = document.getElementById('imagePreview');
@@ -648,6 +716,7 @@ formItem.addEventListener('submit', async (e) => {
         const duracion = document.getElementById('itemDuracion') ? document.getElementById('itemDuracion').value.trim() : '';
         const fecha = document.getElementById('itemFecha').value;
         const costo = document.getElementById('itemCosto') ? document.getElementById('itemCosto').value.trim() : '';
+        const ubicacion = document.getElementById('itemUbicacion') ? document.getElementById('itemUbicacion').value.trim() : '';
         const inputFiles = document.getElementById('itemImagenesMultiples');
         const checkReemplazar = document.getElementById('checkReemplazarImagenes');
 
@@ -662,6 +731,7 @@ formItem.addEventListener('submit', async (e) => {
         formData.append('duracion_curso', duracion);
         formData.append('fecha_inicio', fecha);
         formData.append('coste_inscripcion', costo);
+        formData.append('ubicacion_curso', ubicacion);
 
         if (editandoId) {
             formData.append('reemplazar_imagenes', (checkReemplazar && checkReemplazar.checked) ? 'true' : 'false');
@@ -723,6 +793,7 @@ formItem.addEventListener('submit', async (e) => {
     const nombre = document.getElementById('itemNombre').value.trim();
     const descripcion = document.getElementById('itemDescripcion').value.trim();
     const fecha = document.getElementById('itemFecha').value;
+    const ubicacion = document.getElementById('itemUbicacion') ? document.getElementById('itemUbicacion').value.trim() : '';
     const imagenFile = document.getElementById('itemImagen').files[0];
 
     if (!nombre || !descripcion) {
@@ -734,6 +805,7 @@ formItem.addEventListener('submit', async (e) => {
     formData.append('nombre', nombre);
     formData.append('descripcion', descripcion);
     formData.append('fecha', fecha);
+    if (tabActual === 'eventos') formData.append('ubicacion_eventos', ubicacion);
     if (imagenFile) {
         formData.append('imagen', imagenFile);
     }
